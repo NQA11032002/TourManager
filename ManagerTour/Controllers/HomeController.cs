@@ -9,5 +9,6 @@ namespace ManagerTour.Controllers
         {
             return View();
         }
+
     }
 }

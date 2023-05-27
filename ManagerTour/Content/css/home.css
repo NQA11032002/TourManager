@@ -1,21 +1,6 @@
 ﻿body {
 }
 
-.home .breadcrumb .breadcrumb-item h1 {
-	font-weight: bold;
-	font-size: 25px;
-}
-
-.home .breadcrumb .breadcrumb-item .breadcrumb-item-text {
-	margin-left: 15px;
-	color: #9b9aba;
-	font-size: 14px;
-}
-
-.home .breadcrumb .breadcrumb-date {
-	font-size: 14px;
-	color: #9b9aba;
-}
 
 .home_content
 {

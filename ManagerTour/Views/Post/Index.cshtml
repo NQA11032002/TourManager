@@ -1,0 +1,72 @@
+﻿@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Home.cshtml";
+}
+<link href="~/Content/css/post.css" rel="stylesheet" />
+
+<div class="breadcrumb d-flex justify-content-between align-items-center m-4">
+    <div class="breadcrumb-item d-flex align-items-center">
+        <h1>Dashboard</h1>
+
+        <div class="text-break breadcrumb-item-text">
+            <a>Post</a>
+            <span> / </span>
+            <span>Analytic</span>
+        </div>
+    </div>
+
+    <div class="breadcrumb-date">
+        <p>August 1, 2020 - August 31, 2020</p>
+    </div>
+</div>
+
+<div class="posts">
+    <form runat="server" id="post_form">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Address Start</th>
+                    <th scope="col">Address End</th>
+                    <th scope="col">Date Start</th>
+                    <th scope="col">Date End</th>
+                    <th scope="col" width="100px">Price Tour</th>
+                    <th scope="col">Detail Price</th>
+                    <th scope="col">Maximum</th>
+                    <th scope="col">Present</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Create Date</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @{
+                    for (int i = 0; i < Model.Rows.Count; i++)
+                    {
+                        <tr>
+                            <th scope="row">@Model.Rows[i]["id"]</th>
+                            <td>@Model.Rows[i]["title"]</td>
+                            <td>@Model.Rows[i]["description"]</td>
+                            <td>@Model.Rows[i]["address_start"]</td>
+                            <td>@Model.Rows[i]["address_end"]</td>
+                            <td>@Model.Rows[i]["date_start"]</td>
+                            <td>@Model.Rows[i]["date_end"]</td>
+                            <td>@Model.Rows[i]["price_tour"]</td>
+                            <td>@Model.Rows[i]["detail_price_tour"]</td>
+                            <td>@Model.Rows[i]["amount_customer_maximum"]</td>
+                            <td>@Model.Rows[i]["amount_customer_present"]</td>
+                            <td>@Model.Rows[i]["status"]</td>
+                            <td>@Model.Rows[i]["created_at"]</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </form>
+
+</div>

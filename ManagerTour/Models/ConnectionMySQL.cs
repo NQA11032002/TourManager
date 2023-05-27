@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace Tour.Models
+namespace ManagerTour.Models
 {
     public class ConnectionMySQL
     {
