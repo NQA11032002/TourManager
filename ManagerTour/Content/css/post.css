@@ -102,3 +102,62 @@
     border: unset;
     color: #415094;
 }
+.posts .pagination .pagination-item .pagination-left
+{
+    margin-right: 5px;
+}
+
+.lb_removePost {
+    display: none;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+}
+
+.notify-remove-post {
+    display: none;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 10px;
+    height: 150px;
+    width: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffff;
+    z-index: 999;
+}
+
+.notify-remove-post > h5 
+{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.notify-remove-post .btn-notify-post
+{
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    color: #000000;
+    font-weight: bold;
+    font-size: 14px;
+    width: 90px;
+}
+.notify-remove-post .remove
+{
+    background-color: #000000 !important;
+    color: #ffff;
+    margin-left: 10px;
+}
+
+.cb_removePost:checked ~ .lb_removePost {
+    display: block;
+}
+
+.cb_removePost:checked ~ .notify-remove-post
+{
+    display: block;
+}

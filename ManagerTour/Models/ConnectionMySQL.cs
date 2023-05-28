@@ -16,17 +16,24 @@ namespace ManagerTour.Models
         {
             using(MySqlConnection Connection = new MySqlConnection(strConnect))
             {
-                Connection.Open();
+                try
+                {
+                    Connection.Open();
 
-                MySqlCommand command = new MySqlCommand(sql, Connection);
+                    MySqlCommand command = new MySqlCommand(sql, Connection);
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter();
-                adapter.SelectCommand = command;
+                    MySqlDataAdapter adapter = new MySqlDataAdapter();
+                    adapter.SelectCommand = command;
 
-                DataSet ds = new DataSet();
-                adapter.Fill(ds);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
 
-                return ds;
+                    return ds;
+                }
+                finally
+                {
+
+                }
             }
         }
 
