@@ -20,6 +20,12 @@ namespace ManagerTour.Models
         private Address_travel _address_travel;
         private Type_travel _type_travel;
 
+        private List<Type_travel> listTypeTravel;
+        public List<Type_travel> ListTypeTravel { get => listTypeTravel; set => listTypeTravel = value; }
+
+        private List<Address_travel> listAddressTravel;
+        public List<Address_travel> ListAddressTravel { get => listAddressTravel; set => listAddressTravel = value; }
+
         public int Id { get => _id; set => _id = value; }
         public int User_id { get => _user_id; set => _user_id = value; }
         public int Address_travel_id { get => _address_travel_id; set => _address_travel_id = value; }

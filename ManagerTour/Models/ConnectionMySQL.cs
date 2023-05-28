@@ -30,26 +30,9 @@ namespace ManagerTour.Models
             }
         }
 
-        //insert value to database
-        public bool InsertData(MySqlCommand cmd)
-        {
-            using (MySqlConnection Connection = new MySqlConnection(strConnect))
-            {
-                Connection.Open();
 
-                int result = cmd.ExecuteNonQuery();
-
-                if (result >= 1)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        //Delete post
-        public void Delete(string query)
+        //ExecuteNonQuery
+        public void ExecuteNonQuery(string query)
         {
             using (MySqlConnection Connection = new MySqlConnection(strConnect))
             {

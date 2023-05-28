@@ -1,8 +1,53 @@
-﻿
+﻿@model List<ManagerTour.Models.Posts>
+
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/Home.cshtml";
 }
 
-<h2>Detail</h2>
+<link href="~/Content/css/detail_post.css" rel="stylesheet" />
+@using (Html.BeginForm("Update", "Post", FormMethod.Post))
+{
+    <div class="post_detail form_detail card border-0">
+        <h1 class="text-center fw-bold h3 mb-3 pb-3">Detail Post</h1>
 
+        <input type="text" name="id" value="@Model[0].Id" hidden/>
+
+        <select class="form-select shadow-none mb-3" name="address">
+            @foreach (var address in @Model[0].ListAddressTravel)
+            {
+                if (@Model[0].Address_travel_id == address.Id)
+                {
+                    <option selected value="@address.Id">@address.Name_travel</option>
+                }
+                else
+                {
+                    <option value="@address.Id">@address.Name_travel</option>
+
+                }
+            }
+        </select>
+
+        <select class="form-select shadow-none mb-3" name="type">
+            @foreach (var type in @Model[0].ListTypeTravel)
+            {
+                if (@Model[0].Type_travel_id == type.Id)
+                {
+                    <option selected value="@type.Id">@type.Name</option>
+                }
+                else
+                {
+                    <option value="@type.Id">@type.Name</option>
+                }
+            }
+        </select>
+
+        <input class="form-control title_input mb-3 shadow-none" name="title" value="@Model[0].Title" />
+        <input class="form-control content_input mb-3 shadow-none" name="content" value="@Model[0].Content" />
+
+        <div class="d-flex justify-content-end">
+            <a href="~/Post/Index" class="cancel_update btn">Cancel</a>
+            <button type="submit" class="update_detail btn btn-dark">Update</button>
+        </div>
+    </div>
+}

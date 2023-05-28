@@ -1,0 +1,31 @@
+﻿body {
+}
+
+.form_detail
+{
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+}
+.form_detail select, .form_detail input
+{
+    font-size: 14px;
+}
+
+.form_detail select:focus
+{
+    border-color: #000;
+}
+.form_detail input:focus
+{
+    border-color: #000;
+
+}
+
+.form_detail .cancel_update
+{
+    background-color: transparent;
+    border: 1px solid #000;
+    color: #000;
+    margin-right: 10px;
+}
