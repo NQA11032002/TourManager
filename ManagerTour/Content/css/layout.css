@@ -14,6 +14,7 @@ ul,li,a,p
 	display: grid;
 	grid-template-columns: 230px 1fr;
 	background-color: #f6f7fb;
+	height: 100vh;
 }
 
 .sidebar {

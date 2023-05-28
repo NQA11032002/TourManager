@@ -33,7 +33,6 @@ namespace ManagerTour.Models
         //insert value to database
         public bool InsertData(MySqlCommand cmd)
         {
-
             using (MySqlConnection Connection = new MySqlConnection(strConnect))
             {
                 Connection.Open();
@@ -46,6 +45,18 @@ namespace ManagerTour.Models
                 }
 
                 return false;
+            }
+        }
+
+        //Delete post
+        public void Delete(string query)
+        {
+            using (MySqlConnection Connection = new MySqlConnection(strConnect))
+            {
+                Connection.Open();
+
+                MySqlCommand cmd = new MySqlCommand(query, Connection);
+                cmd.ExecuteNonQuery();           
             }
         }
     }

@@ -6,9 +6,100 @@
 	border-radius: 10px;
 	background-color: #ffff;
 	margin: 20px;
+    height: 750px;
 }
 
 .posts > table
 {
 	overflow: auto;
+}
+.posts table  tbody tr td
+{
+    font-size: 14px;
+}
+.posts table th 
+{
+    font-size: 15px !important;
+}
+
+.posts table tbody tr td .title
+{
+	display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.posts table tbody tr td .content
+{
+	display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.posts table tbody tr td .user_function .detail
+{
+    cursor: grab;
+    margin-right: 10px;
+}
+
+.posts table tbody tr td .user_function .remove
+{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: grab;
+}
+
+.posts table tbody tr td .user_function .remove >i 
+{
+        color: #FC2947;
+
+}
+
+.posts_search {
+    width: 450px;
+    margin: 0 auto
+}
+.posts_search > .search_input {
+    width: 450px;
+    border-radius: 5px;
+    padding-left: 5px;
+    font-size: 13px;
+    outline: none;
+    height: 35px;
+}
+
+
+.posts_search > #btn_search
+{
+    background: transparent;
+    border: unset;
+    position: absolute;
+    right: 15px;
+    color: #9b9aba;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.posts > .pagination
+{
+    margin-top: auto;
+}
+.posts .pagination .pagination-page
+{
+    font-size: 14px;
+    color: #415094;
+    font-weight: 400;
+}
+
+.posts .pagination .pagination-item .pagination-arrow {
+    background-color: transparent;
+    border: unset;
+    color: #415094;
 }

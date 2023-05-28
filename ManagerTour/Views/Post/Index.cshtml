@@ -1,4 +1,4 @@
-﻿@model System.Data.DataTable
+﻿@model List<ManagerTour.Models.Posts>
 
 @{
     ViewBag.Title = "Index";
@@ -24,49 +24,74 @@
 
 <div class="posts">
     <form runat="server" id="post_form">
+        @using (Html.BeginForm("Index", "PostController", FormMethod.Get))
+        {
+            <div class="posts_search d-flex justify-content-center p-3 position-relative">
+                <input type="text" name="keywordInput" class="search_input border" placeholder="Enter keyword search the post..." />
+                <button id="btn_search" type="submit" runnat="server">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        }
+
+
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col">STT</th>
+                    <th scope="col" width="150px">User Name</th>
+                    <th scope="col" width="100px">Address</th>
+                    <th scope="col" width="100px">Type</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Address Start</th>
-                    <th scope="col">Address End</th>
-                    <th scope="col">Date Start</th>
-                    <th scope="col">Date End</th>
-                    <th scope="col" width="100px">Price Tour</th>
-                    <th scope="col">Detail Price</th>
-                    <th scope="col">Maximum</th>
-                    <th scope="col">Present</th>
+                    <th scope="col">Content</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Create Date</th>
+                    <th scope="col">User</th>
                 </tr>
             </thead>
             <tbody>
 
-                @{
-                    for (int i = 0; i < Model.Rows.Count; i++)
-                    {
-                        <tr>
-                            <th scope="row">@Model.Rows[i]["id"]</th>
-                            <td>@Model.Rows[i]["title"]</td>
-                            <td>@Model.Rows[i]["description"]</td>
-                            <td>@Model.Rows[i]["address_start"]</td>
-                            <td>@Model.Rows[i]["address_end"]</td>
-                            <td>@Model.Rows[i]["date_start"]</td>
-                            <td>@Model.Rows[i]["date_end"]</td>
-                            <td>@Model.Rows[i]["price_tour"]</td>
-                            <td>@Model.Rows[i]["detail_price_tour"]</td>
-                            <td>@Model.Rows[i]["amount_customer_maximum"]</td>
-                            <td>@Model.Rows[i]["amount_customer_present"]</td>
-                            <td>@Model.Rows[i]["status"]</td>
-                            <td>@Model.Rows[i]["created_at"]</td>
-                        </tr>
-                    }
-                }
+                @foreach (var post in Model)
+                {
+                    <tr>
+                        <td scope="row">@post.Id</td>
+                        <td>@post.User.Name</td>
+                        <td>@post.Address_travel.Name_travel</td>
+                        <td>@post.Type_travel.Name</td>
+                        <td>
+                            <p class="title">@post.Title</p>
+                        </td>
+                        <td>
+                            <p class="content">@post.Content</p>
+                        </td>
+                        <td>@post.Status</td>
+                        <td>
+                            <div class="user_function d-flex align-items-center">
+                                <a class="detail">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
 
+                                <a href="~/Post/Delete?id=@post.Id">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
-    </form>
 
+        <div class="pagination d-flex justify-content-between p-2">
+            <p class="pagination-page">Showing 1 to 10 of 10 entries</p>
+
+            <div class="pagination-item">
+                <button class="pagination-left pagination-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+
+                <button class="pagination-right pagination-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </form>
 </div>
