@@ -1,0 +1,43 @@
+﻿body {
+}
+
+.tour_table .status_tour--activity {
+	color: #03C988
+}
+
+.tour_table .status_tour--drop {
+	color: #CD0404
+}
+
+.tour_table .address_tour {
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-break: break-word;
+}
+
+.tour_detail .address_tour {
+	margin-right: 10px;
+}
+
+
+.tour_detail .date_tour {
+	margin-right: 10px;
+}
+
+.tour_detail .rd_status_tour
+{
+	font-size: 14px;
+}
+.tour_detail .rd_status_tour > .cb_status_tour
+{
+	margin-right: 5px;
+}
+
+.tour_detail .rd_status_tour 
+{
+	margin-right: 10px;
+}
+

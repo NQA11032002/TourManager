@@ -13,8 +13,11 @@ ul,li,a,p
 .main {
 	display: grid;
 	grid-template-columns: 230px 1fr;
-	background-color: #f6f7fb;
 	height: 100vh;
+}
+
+.main-left {
+	background-color: #f6f7fb;
 }
 
 .sidebar {

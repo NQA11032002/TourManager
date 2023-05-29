@@ -1,17 +1,19 @@
-﻿@model List<ManagerTour.Models.Posts>
+﻿@model List<ManagerTour.Models.Tours>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/Home.cshtml";
 }
+
 <link href="~/Content/css/post.css" rel="stylesheet" />
+<link href="~/Content/css/tour.css" rel="stylesheet" />
 
 <div class="breadcrumb d-flex justify-content-between align-items-center m-4">
     <div class="breadcrumb-item d-flex align-items-center">
         <h1>Dashboard</h1>
 
         <div class="text-break breadcrumb-item-text">
-            <a>Post</a>
+            <a>Tour</a>
             <span> / </span>
             <span>Analytic</span>
         </div>
@@ -23,86 +25,91 @@
 </div>
 
 <div class="posts">
-    @using (Html.BeginForm("Index", "Post", FormMethod.Get))
+    @using (@Html.BeginForm("Index", "Tour", FormMethod.Get))
     {
         <div class="posts_search d-flex justify-content-center p-3 position-relative">
-            <input type="text" name="keywordInput" class="search_input border" placeholder="Enter keyword search the post..." />
+            <input type="text" name="keyword" class="search_input border" placeholder="Enter keyword search the tour..." />
             <button id="btn_search" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
     }
 
-    <table class="table">
+    <table class="table tour_table">
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col" width="150px">User Name</th>
-                <th scope="col" width="100px">Address</th>
-                <th scope="col" width="100px">Type</th>
-                <th scope="col">Title</th>
-                <th scope="col">Content</th>
-                <th scope="col">Status</th>
-                <th scope="col">User</th>
+                <th scope="col" width="100px">User Name</th>
+                <th scope="col" width="200px">Title</th>
+                <th scope="col">Vehicle</th>
+                <th scope="col">Description</th>
+                <th scope="col">Address</th>
+                <th scope="col">Price</th>
+                <th scope="col">Amount</th>
+                <th scope="col" width="90px">Status</th>
+                <th scope="col">Function</th>
             </tr>
         </thead>
         <tbody>
-
-            @foreach (var post in Model)
+            @foreach (var row in Model)
             {
                 <tr>
-                    <td scope="row">@post.Id</td>
-                    <td>@post.User.Name</td>
-                    <td>@post.Address_travel.Name_travel</td>
-                    <td>@post.Type_travel.Name</td>
+                    <td scope="row">@row.Id</td>
+                    <td>@row.User.Name</td>
                     <td>
-                        <p class="title">@post.Title</p>
+                        <p class="title">@row.Title</p>
+                    </td>
+                    <td>@row.Vehicles.Name</td>
+                    <td>
+                        <p class="content">@row.Description</p>
+                    </td>
+                    <td><p class="address_tour">@row.Address_start - @row.Address_end</p></td>
+                    <td>$@row.Price_tour</td>
+                    <td>
+                        <p class="amount fw-bold">@row.Amount_customer_present / @row.Amount_customer_maximum</p>
                     </td>
                     <td>
-                        <p class="content">@post.Content</p>
-                    </td>
-                    <td>
-                        @if (post.Status == 0)
+                        @if (row.Status == 0)
                         {
-                            <p class="fw-bold">Riêng tư</p>
+                            <p class="status_tour fw-bold status_tour--drop">Tạm dừng</p>
                         }
-                        else if (post.Status == 1)
+                        else if (row.Status == 1)
                         {
-                            <p class="fw-bold">Công khai</p>
+                            <p class="status_tour fw-bold status_tour--activity">Hoạt động</p>
                         }
                     </td>
                     <td>
                         <div class="user_function d-flex align-items-center">
-                            <a class="detail" href="~/Post/Detail?id=@post.Id">
+                            <a class="detail" href="~/Tour/Detail?id=@row.Id">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </a>
 
-                            <input type="checkbox" class="cb_removePost" hidden id="cb_removePost_@post.Id" />
-                            <label for="cb_removePost_@post.Id" class="lb_removePost position-fixed"></label>
+                            <input type="checkbox" class="cb_removePost" hidden id="cb_removePost_@row.Id" />
+                            <label for="cb_removePost_@row.Id" class="lb_removePost position-fixed"></label>
 
                             <div class="card notify-remove-post position-fixed">
                                 <div class="card-body">
-                                    <h5 class="fw-bold">Are you want remove this post ?</h5>
-                                    <p>Choose remove, The post will remove forever</p>
+                                    <h5 class="fw-bold">Are you want remove this tour ?</h5>
+                                    <p>Choose remove, The tour will remove forever</p>
 
                                     <div class="d-flex justify-content-end mt-3">
-                                        <label for="cb_removePost_@post.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
+                                        <label for="cb_removePost_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
 
-                                        <a href="~/Post/Delete?id=@post.Id" class="remove btn-notify-post btn btn-danger">
+                                        <a href="~/Tour/Delete?id=@row.Id" class="remove btn-notify-post btn btn-danger">
                                             Remove
                                         </a>
                                     </div>
                                 </div>
                             </div>
 
-
-                            <label for="cb_removePost_@post.Id" class="remove">
+                            <label for="cb_removePost_@row.Id" class="remove">
                                 <i class="fa-regular fa-trash-can"></i>
                             </label>
                         </div>
                     </td>
                 </tr>
             }
+
         </tbody>
     </table>
 
@@ -117,20 +124,21 @@
         </p>
 
         <div class="pagination-item d-flex">
-            @using(Html.BeginForm("PreviousPage", "Post", FormMethod.Get))
+            @using (Html.BeginForm("PreviousPage", "Tour", FormMethod.Get))
             {
                 <button class="pagination-left pagination-arrow">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
             }
 
-
-            @using(Html.BeginForm("NextPage", "Post", FormMethod.Get))
+            @using (Html.BeginForm("NextPage", "Tour", FormMethod.Get))
             {
                 <button class="pagination-right pagination-arrow">
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
             }
+
         </div>
     </div>
 </div>
+

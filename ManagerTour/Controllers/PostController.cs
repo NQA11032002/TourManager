@@ -12,17 +12,17 @@ namespace ManagerTour.Controllers
 {
     public class PostController : Controller
     {
-        private List<Posts> listPosts;
-        public List<Posts> ListPosts { get => listPosts; set => listPosts = value; }
+        private List<Posts> _listPosts;
+        public List<Posts> ListPosts { get => _listPosts; set => _listPosts = value; }
 
-        private List<Type_travel> listTypeTravel;
-        public List<Type_travel> ListTypeTravel { get => listTypeTravel; set => listTypeTravel = value; }
+        private List<Type_travel> _listTypeTravel;
+        public List<Type_travel> ListTypeTravel { get => _listTypeTravel; set => _listTypeTravel = value; }
 
-        private List<Address_travel> listAddressTravel;
-        public List<Address_travel> ListAddressTravel { get => listAddressTravel; set => listAddressTravel = value; }
+        private List<Address_travel> _listAddressTravel;
+        public List<Address_travel> ListAddressTravel { get => _listAddressTravel; set => _listAddressTravel = value; }
 
         //Pagination for table post
-        private int pageSize = 2;
+        private int pageSize = 10;
         private int currentPage = 1;
         private float totalPage = 0;
 
@@ -46,7 +46,7 @@ namespace ManagerTour.Controllers
                                 "from posts as p join address_travel as a on p.address_travel_id = a.id join type_travel as t on p.type_travel_id  = t.id join user_information as u on p.user_id = u.id";
 
                 //if search keyword != null and != empty is perform
-                if (!string.IsNullOrEmpty(keywordInput))
+                if (!string.IsNullOrEmpty(keywordInput) && !string.IsNullOrWhiteSpace(keywordInput))
                 {
                     query += " WHERE p.title like '%" + keywordInput + "%'";
                 }
@@ -76,7 +76,7 @@ namespace ManagerTour.Controllers
                             CurrentPage = currentPage,
                             Title = row["title"].ToString(),
                             Content = row["content"].ToString(),
-                            Status = row["status"].ToString(),
+                            Status = Int32.Parse(row["status"].ToString()),
                             Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
                             Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
                         };
@@ -104,13 +104,7 @@ namespace ManagerTour.Controllers
 
             if(dt.Rows.Count > 0)
             {
-                totalPage = dt.Rows.Count / pageSize;
-
-                //if the remainder is non-zero, add 1 extra page
-                if (totalPage % pageSize != 0)
-                {
-                    totalPage++; // Tăng thêm một trang nếu có phần dư
-                }
+                totalPage = (int)Math.Ceiling((double)dt.Rows.Count / pageSize);
 
                 if (totalPage <= 0)
                 {
@@ -188,7 +182,7 @@ namespace ManagerTour.Controllers
                         Type_travel_id = Int32.Parse(row["type_travel_id"].ToString()),
                         Title = row["title"].ToString(),
                         Content = row["content"].ToString(),
-                        Status = row["status"].ToString(),
+                        Status = Int32.Parse(row["status"].ToString()),
                         ListTypeTravel = ListTypeTravel,
                         ListAddressTravel = ListAddressTravel,
                         Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
@@ -217,7 +211,6 @@ namespace ManagerTour.Controllers
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error" + e.Message, "Notifycation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return RedirectToAction("Index");
             }
 
@@ -243,7 +236,6 @@ namespace ManagerTour.Controllers
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error" + e.Message, "Notifycation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return RedirectToAction("Detail");
             }
         }
@@ -271,7 +263,7 @@ namespace ManagerTour.Controllers
 
             Index();
 
-            return View("Index", listPosts);
+            return View("Index", ListPosts);
         }
 
         //pagination previous page
@@ -292,7 +284,7 @@ namespace ManagerTour.Controllers
 
             Index();
 
-            return View("Index", listPosts);
+            return View("Index", ListPosts);
         }
     }
 }

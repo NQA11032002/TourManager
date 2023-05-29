@@ -113,6 +113,7 @@
     <Content Include="Content\css\home.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\post.css" />
+    <Content Include="Content\css\tour.css" />
     <Content Include="Content\js\home.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -149,6 +150,7 @@
     <Compile Include="Models\Type_travel.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\User_information.cs" />
+    <Compile Include="Models\Vehicles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +182,10 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Post\Index.cshtml" />
     <Content Include="Views\Post\Detail.cshtml" />
-    <Content Include="Views\Tour\Tour.cshtml" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
+    <Content Include="Views\Tour\Index.cshtml" />
+    <Content Include="Views\Tour\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

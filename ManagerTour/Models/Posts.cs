@@ -14,7 +14,7 @@ namespace ManagerTour.Models
         private int _type_travel_id;
         private string _title;
         private string _content;
-        private string _status;
+        private int _status;
         private string _created_at;
         private string _updated_at;
         private int currentPage;
@@ -41,7 +41,7 @@ namespace ManagerTour.Models
 
         [Required(ErrorMessage = "Nội dung không được để trống")]
         public string Content { get => _content; set => _content = value; }
-        public string Status { get => _status; set => _status = value; }
+        public int Status { get => _status; set => _status = value; }
         public string Created_at { get => _created_at; set => _created_at = value; }
         public string Updated_at { get => _updated_at; set => _updated_at = value; }
         public User_information User { get => _user_information; set => _user_information = value; }

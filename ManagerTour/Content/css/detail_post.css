@@ -44,3 +44,8 @@
     font-size: 13px;
     font-weight: bold
 }
+
+
+.form_detail .form-control {
+    font-size: 14px;
+}
