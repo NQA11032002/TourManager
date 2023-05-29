@@ -22,8 +22,8 @@ namespace ManagerTour.Models
         private int _amount_customer_maximum;
         private int _amount_customer_present;
         private int _status;
-        private int currentPage;
-        private float totalPage;
+        private int _currentPage;
+        private float _totalPage;
         private string _created_at;
         private string _updated_at;
         private User_information _user;
@@ -61,7 +61,7 @@ namespace ManagerTour.Models
         public User_information User { get => _user; set => _user = value; }
         public Vehicles Vehicles { get => _vehicles; set => _vehicles = value; }
         public List<Vehicles> ListVehicle { get => _listVehicle; set => _listVehicle = value; }
-        public float TotalPage { get => totalPage; set => totalPage = value; }
-        public int CurrentPage { get => currentPage; set => currentPage = value; }
+        public float TotalPage { get => _totalPage; set => _totalPage = value; }
+        public int CurrentPage { get => _currentPage; set => _currentPage = value; }
     }
 }

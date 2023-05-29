@@ -14,7 +14,8 @@ namespace ManagerTour.Models
         private int _status;
         private string _created_at;
         private string _update_at;
-
+        private int _currentPage;
+        private float _totalPage;
         public int Id { get => _id; set => _id = value; }
         public int Role_id { get => _role_id; set => _role_id = value; }
         public string Email { get => _email; set => _email = value; }
@@ -22,5 +23,7 @@ namespace ManagerTour.Models
         public int Status { get => _status; set => _status = value; }
         public string Created_at { get => _created_at; set => _created_at = value; }
         public string Update_at { get => _update_at; set => _update_at = value; }
+        public float TotalPage { get => _totalPage; set => _totalPage = value; }
+        public int CurrentPage { get => _currentPage; set => _currentPage = value; }
     }
 }

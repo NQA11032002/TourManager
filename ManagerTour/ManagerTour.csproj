@@ -114,6 +114,7 @@
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\post.css" />
     <Content Include="Content\css\tour.css" />
+    <Content Include="Content\css\user.css" />
     <Content Include="Content\js\home.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -139,6 +140,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,6 +188,7 @@
     <Content Include="Scripts\jquery-3.7.0.min.map" />
     <Content Include="Views\Tour\Index.cshtml" />
     <Content Include="Views\Tour\Detail.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

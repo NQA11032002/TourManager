@@ -43,7 +43,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">Content</th>
                 <th scope="col">Status</th>
-                <th scope="col">User</th>
+                <th scope="col">Feature</th>
             </tr>
         </thead>
         <tbody>
@@ -64,11 +64,15 @@
                     <td>
                         @if (post.Status == 0)
                         {
-                            <p class="fw-bold">Riêng tư</p>
+                            <p class="fw-bold post_status--private">Riêng tư</p>
                         }
                         else if (post.Status == 1)
                         {
-                            <p class="fw-bold">Công khai</p>
+                            <p class="fw-bold post_status--public">Công khai</p>
+                        }
+                        else if (post.Status == 2)
+                        {
+                            <p class="fw-bold post_status--hidden">Tạm khóa</p>
                         }
                     </td>
                     <td>

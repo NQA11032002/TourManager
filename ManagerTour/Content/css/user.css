@@ -1,0 +1,26 @@
+﻿body {
+}
+
+.users .status_online {
+	color: #03C988;
+}
+
+.users .status_off {
+	color: #CD0404;
+}
+
+.users .role_user {
+	color: #9384D1;
+}
+
+.users .role_admin {
+	color: #F97B22;
+}
+
+.users .status_account_activity {
+	color: #645CBB;
+}
+
+.users .status_account_drop {
+	color: #CD0404;
+}

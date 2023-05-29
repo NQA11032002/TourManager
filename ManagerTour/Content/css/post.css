@@ -162,3 +162,14 @@
 {
     display: block;
 }
+
+.posts .post_status--private {
+    color: #65647C;
+}
+
+.posts .post_status--public {
+    color: #03C988;
+}
+.post_status--hidden {
+    color: #CD0404;
+}

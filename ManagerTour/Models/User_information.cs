@@ -19,7 +19,7 @@ namespace ManagerTour.Models
         private int _is_login;
         private string _created_at;
         private string _updated_at;
-
+        private Users _user;
         public int Id { get => _id; set => _id = value; }
         public int User_id { get => _user_id; set => _user_id = value; }
         public string Name { get => _name; set => _name = value; }
@@ -32,5 +32,6 @@ namespace ManagerTour.Models
         public int Is_login { get => _is_login; set => _is_login = value; }
         public string Created_at { get => _created_at; set => _created_at = value; }
         public string Updated_at { get => _updated_at; set => _updated_at = value; }
+        public Users User { get => _user; set => _user = value; }
     }
 }

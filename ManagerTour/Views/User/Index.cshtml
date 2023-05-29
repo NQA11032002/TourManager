@@ -1,4 +1,4 @@
-﻿@model List<ManagerTour.Models.Tours>
+﻿@model List<ManagerTour.Models.User_information>
 
 @{
     ViewBag.Title = "Index";
@@ -6,14 +6,14 @@
 }
 
 <link href="~/Content/css/post.css" rel="stylesheet" />
-<link href="~/Content/css/tour.css" rel="stylesheet" />
+<link href="~/Content/css/user.css" rel="stylesheet" />
 
 <div class="breadcrumb d-flex justify-content-between align-items-center m-4">
     <div class="breadcrumb-item d-flex align-items-center">
         <h1>Dashboard</h1>
 
         <div class="text-break breadcrumb-item-text">
-            <a>Tour</a>
+            <a>User</a>
             <span> / </span>
             <span>Analytic</span>
         </div>
@@ -24,63 +24,93 @@
     </div>
 </div>
 
-<div class="posts">
-    @using (@Html.BeginForm("Index", "Tour", FormMethod.Get))
+<div class="posts users">
+    @using (Html.BeginForm("Index", "User", FormMethod.Get))
     {
         <div class="posts_search d-flex justify-content-center p-3 position-relative">
-            <input type="text" name="keyword" class="search_input border" placeholder="Enter keyword search the tour..." />
+            <input type="text" name="keyword" class="search_input border" placeholder="Enter keyword search the user..." />
             <button id="btn_search" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </div>
     }
 
-    <table class="table tour_table">
+
+    <table class="table">
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col" width="100px">User Name</th>
-                <th scope="col" width="200px">Title</th>
-                <th scope="col">Vehicle</th>
-                <th scope="col">Description</th>
+                <th scope="col">Email</th>
+                <th scope="col" width="100px">Name</th>
+                <th scope="col">BirthDay</th>
+                <th scope="col">Gender</th>
                 <th scope="col">Address</th>
-                <th scope="col">Price</th>
-                <th scope="col">Amount</th>
-                <th scope="col" width="90px">Status</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Education</th>
+                <th scope="col">Role</th>
+                <th scope="col">Online/Off</th>
+                <th scope="col">Status</th>
                 <th scope="col">Feature</th>
             </tr>
         </thead>
         <tbody>
+
             @foreach (var row in Model)
             {
                 <tr>
                     <td scope="row">@row.Id</td>
-                    <td>@row.User.Name</td>
+                    <td>@row.User.Email</td>
+                    <td>@row.Name</td>
+                    <td>@row.Birth_date</td>
                     <td>
-                        <p class="title">@row.Title</p>
-                    </td>
-                    <td>@row.Vehicles.Name</td>
-                    <td>
-                        <p class="content">@row.Description</p>
-                    </td>
-                    <td><p class="address_tour">@row.Address_start - @row.Address_end</p></td>
-                    <td>$@row.Price_tour</td>
-                    <td>
-                        <p class="amount fw-bold">@row.Amount_customer_present / @row.Amount_customer_maximum</p>
-                    </td>
-                    <td>
-                        @if (row.Status == 0)
+                        @if (row.Gender == 1)
                         {
-                            <p class="status_tour fw-bold status_tour--drop">Tạm dừng</p>
+                            <p class="gender">Nam</p>
                         }
-                        else if (row.Status == 1)
+                        else
                         {
-                            <p class="status_tour fw-bold status_tour--activity">Hoạt động</p>
+                            <p class="gender">Nữ</p>
                         }
                     </td>
+                    <td>
+                        <p>@row.Address</p>
+                    </td>
+                    <td>@row.Phone</td>
+                    <td><p class="content">@row.Education</p></td>
+                    <td>
+                        @if (row.User.Role_id == 2)
+                        {
+                            <p class="role role_user fw-bold">Người dùng</p>
+                        }
+                        else if (row.User.Role_id == 1)
+                        {
+                            <p class="role role_admin fw-bold">Quản trị viên</p>
+                        }
+                    </td>
+                    <td>
+                        @if (row.Is_login == 1)
+                        {
+                            <p class="status_login fw-bold status_online">Online</p>
+                        }
+                        else if (row.Is_login == 0)
+                        {
+                            <p class="status_login fw-bold status_off">Off</p>
+                        }
+                    </td>
+                    <td>
+                        @if (row.User.Status == 1)
+                        {
+                            <p class="status_account fw-bold status_account_activity">Hiệu lực</p>
+                        }
+                        else if (row.User.Status == 0)
+                        {
+                            <p class="status_account fw-bold status_account_drop">Tạm khóa</p>
+                        }
+                    </td>
+
                     <td>
                         <div class="user_function d-flex align-items-center">
-                            <a class="detail" href="~/Tour/Detail?id=@row.Id">
+                            <a class="detail" href="~/User/Detail?id=@row.Id">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </a>
 
@@ -89,18 +119,19 @@
 
                             <div class="card notify-remove-post position-fixed">
                                 <div class="card-body">
-                                    <h5 class="fw-bold">Are you want remove this tour ?</h5>
-                                    <p>Choose remove, The tour will remove forever</p>
+                                    <h5 class="fw-bold">Are you want remove this user ?</h5>
+                                    <p>Choose remove, The user will remove forever</p>
 
                                     <div class="d-flex justify-content-end mt-3">
                                         <label for="cb_removePost_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
 
-                                        <a href="~/Tour/Delete?id=@row.Id" class="remove btn-notify-post btn btn-danger">
+                                        <a href="~/User/Delete?id=@row.Id" class="remove btn-notify-post btn btn-danger">
                                             Remove
                                         </a>
                                     </div>
                                 </div>
                             </div>
+
 
                             <label for="cb_removePost_@row.Id" class="remove">
                                 <i class="fa-regular fa-trash-can"></i>
@@ -109,36 +140,31 @@
                     </td>
                 </tr>
             }
-
         </tbody>
     </table>
 
     <div class="pagination d-flex justify-content-between p-2">
         <p class="pagination-page">
-            Showing @if (Model.Count > 0)
-            {@Model[0].CurrentPage}  to
-            @if (Model.Count > 0)
-            {@Model[0].TotalPage} of
-            @if (Model.Count > 0)
-            {@Model[0].TotalPage} entries
+
         </p>
 
         <div class="pagination-item d-flex">
-            @using (Html.BeginForm("PreviousPage", "Tour", FormMethod.Get))
+            @using (Html.BeginForm("PreviousPage", "User", FormMethod.Get))
             {
                 <button class="pagination-left pagination-arrow">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
             }
 
-            @using (Html.BeginForm("NextPage", "Tour", FormMethod.Get))
+
+            @using (Html.BeginForm("NextPage", "User", FormMethod.Get))
             {
                 <button class="pagination-right pagination-arrow">
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
             }
-
         </div>
     </div>
 </div>
+
 
