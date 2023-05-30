@@ -1,0 +1,63 @@
+﻿@model List<ManagerTour.Models.Address_travel>
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/Home.cshtml";
+}
+
+
+<link href="~/Content/css/detail_post.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Update", "AddressTravel", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="post_detail form_detail card border-0">
+        <h1 class="text-center fw-bold h3 mb-3 pb-3">Detail Address Travel</h1>
+
+        <input type="text" name="id" value="@Model[0].Id" hidden />
+
+        <div class="mb-3">
+            <label class="form-label">Name Travel</label>
+            @Html.TextBoxFor(m => Model[0].Name_travel, new { @class = "form-control title_input shadow-non", @name = "title" })
+            @Html.ValidationMessageFor(m => Model[0].Name_travel)
+        </div>
+
+        <label class="form-label">City Travel</label>
+        <select class="form-select shadow-none mb-3" name="city">
+            @foreach (var row in ViewBag.listCity)
+            {
+                <option @(Model[0].City_matp == row.Matp ? "selected" : "") value="@row.Matp">@row.Name</option>
+            }
+        </select>
+
+        <label class="form-label">District Travel</label>
+        <select class="form-select shadow-none mb-3" name="district">
+            @foreach (var row in ViewBag.listDistrict)
+            {
+                <option @(Model[0].District_maqh == row.Maqh ? "selected" : "") value="@row.Maqh">@row.Name</option>
+            }
+        </select>
+
+        <label class="form-label">Town Travel</label>
+        <select class="form-select shadow-none mb-3" name="town">
+            @foreach (var row in ViewBag.listTown)
+            {
+                <option @(Model[0].Town_xaid == row.Xaid ? "selected" : "") value="@row.Xaid">@row.Name</option>
+            }
+        </select>
+
+        <label class="form-label">Type Travel</label>
+        <select class="form-select shadow-none mb-3" name="type">
+            @foreach (var row in ViewBag.listType)
+            {
+                <option @(Model[0].Type_travel_id == row.Id ? "selected" : "") value="@row.Id">@row.Name</option>
+            }
+        </select>
+
+        <div class="d-flex justify-content-end">
+            <a href="~/AddressTravel/Index" class="cancel_update btn">Cancel</a>
+            <button type="submit" class="update_detail btn btn-dark">Update</button>
+        </div>
+    </div>
+}

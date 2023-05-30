@@ -24,3 +24,83 @@
 .users .status_account_drop {
 	color: #CD0404;
 }
+
+.users .lock {
+	color: #181823;
+	margin-left: 10px;
+	cursor: grab;
+}
+
+.users .user_search
+{
+	margin: unset;
+}
+
+.users .user_select
+{
+	font-size: 14px;
+}
+.users .user_select:focus
+{
+	border-color: #000;
+}
+
+.users .unlock {
+	color: #03C988;
+	margin-left: 10px;
+	cursor: grab;
+}
+
+.lb_lockUser {
+	display: none;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 99;
+}
+
+.notify-lock-user {
+	display: none;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	border-radius: 10px;
+	height: 150px;
+	width: 400px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #ffff;
+	z-index: 999;
+}
+
+
+.notify-lock-user > h5 {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.notify-lock-user .btn-notify-post {
+	background-color: transparent;
+	border-radius: 5px;
+	border: 1px solid #000000;
+	color: #000000;
+	font-weight: bold;
+	font-size: 14px;
+	width: 90px;
+}
+
+.notify-lock-user .remove {
+	background-color: #000000 !important;
+	color: #ffff;
+	margin-left: 10px;
+}
+
+.cb_lockUser:checked ~ .lb_lockUser {
+	display: block;
+}
+
+.cb_lockUser:checked ~ .notify-lock-user {
+	display: block;
+}
+

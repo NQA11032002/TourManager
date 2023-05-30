@@ -1,0 +1,207 @@
+﻿@model List<ManagerTour.Models.Address_travel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Home.cshtml";
+}
+
+
+<link href="~/Content/css/post.css" rel="stylesheet" />
+<link href="~/Content/css/address_travel.css" rel="stylesheet" />
+
+<div class="breadcrumb d-flex justify-content-between align-items-center m-4">
+    <div class="breadcrumb-item d-flex align-items-center">
+        <h1>Dashboard</h1>
+
+        <div class="text-break breadcrumb-item-text">
+            <a>Address Travel</a>
+            <span> / </span>
+            <span>Analytic</span>
+        </div>
+    </div>
+
+    <div class="breadcrumb-date">
+        <p>August 1, 2020 - August 31, 2020</p>
+    </div>
+</div>
+
+<div class="posts address_travel">
+    @using (Html.BeginForm("Index", "AddressTravel", FormMethod.Get))
+    {
+        <div class="d-flex justify-content-between p-3">
+            <div class="d-flex align-items-center">
+                <div class="filter_city">
+                    <select class="form-select shadow-none user_select select_city" name="filter_city">
+                        <option value="0">Tất cả</option>
+
+                        @foreach (var row in ViewBag.listCity)
+                        {
+                            <option @(ViewBag.filter_city == row.Matp ? "selected" : "") value="@row.Matp">@row.Name</option>
+                        }
+
+                    </select>
+                </div>
+
+                <div class="filter_district">
+                    <select class="form-select shadow-none user_select select_district" name="filter_district">
+                        <option value="0">Tất cả</option>
+
+                        @foreach (var row in ViewBag.listDistrict)
+                        {
+                            if (row.Matp == ViewBag.filter_city)
+                            {
+                                <option @(ViewBag.filter_district == row.Maqh ? "selected" : "") value="@row.Maqh">@row.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="filter_town">
+                    <select class="form-select shadow-none user_select select_town" name="filter_town">
+                        <option value="0">Tất cả</option>
+
+                        @foreach (var row in ViewBag.listTown)
+                        {
+                            if (row.Maqh == ViewBag.filter_district)
+                            {
+                                <option @(ViewBag.filter_town == row.Xaid ? "selected" : "") value="@row.Xaid">@row.Name</option>
+                            }
+                        }
+
+                    </select>
+                </div>
+
+                <div class="filter_type">
+                    <select class="form-select shadow-none user_select select_type" name="filter_type">
+                        <option value="0">Tất cả</option>
+
+                        @foreach (var row in ViewBag.listType)
+                        {
+                            <option @(ViewBag.filter_type == row.Id ? "selected" : "") value="@row.Id">@row.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="posts_search d-flex justify-content-center position-relative search_address">
+                <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the address travel..." />
+                <button id="btn_search" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <div class="insert_address">
+                <a class="btn btn-dark fw-bold" href="/AddressTravel/Insert">Insert</a>
+            </div>
+        </div>
+    }
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col" width="150px">Name travel</th>
+                <th scope="col">City</th>
+                <th scope="col">District</th>
+                <th scope="col">Town</th>
+                <th scope="col">Type</th>
+                <th scope="col">Created</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Feature</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var row in Model)
+            {
+            <tr>
+                <td scope="row">@row.Id</td>
+                <td><p class="title">@row.Name_travel</p></td>
+                <td>@row.City.Name</td>
+                <td>@row.District.Name</td>
+                <td>@row.Town.Name</td>
+                <td>@row.Type.Name</td>
+                <td>@row.Created_at</td>
+                <td>@row.Updated_at</td>
+                <td>
+                    <div class="user_function d-flex align-items-center">
+                        <a class="detail" href="~/AddressTravel/Detail?id=@row.Id">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+
+                        <input type="checkbox" class="cb_removePost" hidden id="cb_removePost_@row.Id" />
+                        <label for="cb_removePost_@row.Id" class="lb_removePost position-fixed"></label>
+
+                        <div class="card notify-remove-post position-fixed">
+                            <div class="card-body">
+                                <h5 class="fw-bold">Are you want remove this address travel ?</h5>
+                                <p>Choose <b>Remove</b>, The address travel will  <b>remove forever</b></p>
+
+                                <div class="d-flex justify-content-end mt-3">
+                                    <label for="cb_removePost_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
+
+                                    <a href="~/AddressTravel/Delete?id=@row.Id" class="remove btn-notify-post btn btn-danger">
+                                        Remove
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <label for="cb_removePost_@row.Id" class="remove">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination d-flex justify-content-between p-2">
+        <p class="pagination-page">
+            Showing @if (Model.Count > 0)
+            {@Model[0].CurrentPage}  to
+            @if (Model.Count > 0)
+            {@Model[0].TotalPage} of
+            @if (Model.Count > 0)
+            {@Model[0].TotalPage} entries
+        </p>
+
+        <div class="pagination-item d-flex">
+            @using (Html.BeginForm("PreviousPage", "AddressTravel", FormMethod.Get))
+            {
+                <button class="pagination-left pagination-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            }
+
+
+            @using (Html.BeginForm("NextPage", "AddressTravel", FormMethod.Get))
+            {
+                <button class="pagination-right pagination-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.select_city').change(function () {
+            $(this).closest('form').submit();
+        });
+
+        $('.select_district').change(function () {
+            $(this).closest('form').submit();
+        });
+
+        $('.select_town').change(function () {
+            $(this).closest('form').submit();
+        });
+
+        $('.select_type').change(function () {
+            $(this).closest('form').submit();
+        });
+    });
+</script>

@@ -1,0 +1,26 @@
+﻿body {
+}
+
+.address_travel select {
+	font-size: 13px;
+}
+.address_travel select:focus{
+	border-color: #000;
+}
+
+.address_travel .filter_city
+{
+	margin-right: 10px;
+}
+
+.address_travel .filter_town {
+	margin: 0 10px;
+}
+.address_travel .search_address {
+	margin: unset;
+}
+
+.address_travel .insert_address > a {
+	width: 120px;
+	background-color: #2A3F54;
+}

@@ -1,0 +1,61 @@
+﻿@model ManagerTour.Models.Address_travel
+
+@{
+    ViewBag.Title = "Insert";
+    Layout = "~/Views/Shared/Home.cshtml";
+}
+
+
+<link href="~/Content/css/detail_post.css" rel="stylesheet" />
+
+@using(Html.BeginForm("postInsert", "AddressTravel", FormMethod.Post))
+{
+
+    <div class="post_detail form_detail card border-0">
+        <h1 class="text-center fw-bold h3 mb-3 pb-3">Detail Address Travel</h1>
+
+        <div class="mb-3">
+            <label class="form-label">Name Travel</label>
+            @Html.TextBoxFor(m => m.Name_travel, new { @class = "form-control title_input shadow-non"})
+            @Html.ValidationMessageFor(m => m.Name_travel)
+        </div>
+
+        <label class="form-label">City Travel</label>
+        <select class="form-select shadow-none mb-3" name="city">
+            @foreach (var row in ViewBag.listCity)
+            {
+                <option value="@row.Matp">@row.Name</option>
+            }
+        </select>
+
+        <label class="form-label">District Travel</label>
+        <select class="form-select shadow-none mb-3" name="district">
+            @foreach (var row in ViewBag.listDistrict)
+            {
+                <option value="@row.Maqh">@row.Name</option>
+            }
+        </select>
+
+        <label class="form-label">Town Travel</label>
+        <select class="form-select shadow-none mb-3" name="town">
+            @foreach (var row in ViewBag.listTown)
+            {
+                <option value="@row.Xaid">@row.Name</option>
+            }
+        </select>
+
+        <label class="form-label">Type Travel</label>
+        <select class="form-select shadow-none mb-3" name="type">
+            @foreach (var row in ViewBag.listType)
+            {
+                <option value="@row.Id">@row.Name</option>
+            }
+        </select>
+
+        <div class="d-flex justify-content-end">
+            <a href="~/AddressTravel/Index" class="cancel_update btn">Cancel</a>
+            <button type="submit" class="update_detail btn btn-dark">Insert</button>
+        </div>
+    </div>
+}
+

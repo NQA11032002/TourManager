@@ -27,11 +27,23 @@
 <div class="posts users">
     @using (Html.BeginForm("Index", "User", FormMethod.Get))
     {
-        <div class="posts_search d-flex justify-content-center p-3 position-relative">
-            <input type="text" name="keyword" class="search_input border" placeholder="Enter keyword search the user..." />
-            <button id="btn_search" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+        <div class="d-flex justify-content-between p-3">
+            <div>
+                <select class="form-select shadow-none user_select" name="filter">
+                    <option value="0" @(ViewBag.filter == "0" ? "selected" : "") >Tất cả</option>
+                    <option value="1" @(ViewBag.filter == "1" ? "selected" : "")>Hiệu lực</option>
+                    <option value="2" @(ViewBag.filter == "2" ? "selected" : "")>Tạm khóa</option>
+                    <option value="3" @(ViewBag.filter == "3" ? "selected" : "")>Online</option>
+                    <option value="4" @(ViewBag.filter == "4" ? "selected" : "")>offline</option>
+                </select>
+            </div>
+
+            <div class="posts_search user_search d-flex align-items-center position-relative">
+                <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the user..." />
+                <button id="btn_search" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
         </div>
     }
 
@@ -120,7 +132,7 @@
                             <div class="card notify-remove-post position-fixed">
                                 <div class="card-body">
                                     <h5 class="fw-bold">Are you want remove this user ?</h5>
-                                    <p>Choose remove, The user will remove forever</p>
+                                    <p>Choose <b>Remove</b>, The user will <b>remove forever</b></p>
 
                                     <div class="d-flex justify-content-end mt-3">
                                         <label for="cb_removePost_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
@@ -136,6 +148,57 @@
                             <label for="cb_removePost_@row.Id" class="remove">
                                 <i class="fa-regular fa-trash-can"></i>
                             </label>
+
+
+                            @if (row.User.Status == 1)
+                            {
+                                <input type="checkbox" class="cb_lockUser" hidden id="cb_lockUser_@row.Id" />
+                                <label for="cb_lockUser_@row.Id" class="lb_lockUser position-fixed"></label>
+
+                                <div class="card notify-lock-user position-fixed">
+                                    <div class="card-body">
+                                        <h5 class="fw-bold">Are you want lock this user ?</h5>
+                                        <p>Choose <b>Lock</b>, The user will <b>lock</b></p>
+
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <label for="cb_lockUser_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
+
+                                            <a href="~/User/Lock?id=@row.User_id" class="remove btn-notify-post btn btn-danger">
+                                                Lock
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <label for="cb_lockUser_@row.Id" class="lock">
+                                    <i class="fa-solid fa-lock"></i>
+                                </label>
+                            }
+                            else if (row.User.Status == 0)
+                            {
+                                <input type="checkbox" class="cb_lockUser" hidden id="cb_lockUser_@row.Id" />
+                                <label for="cb_lockUser_@row.Id" class="lb_lockUser position-fixed"></label>
+
+                                <div class="card notify-lock-user position-fixed">
+                                    <div class="card-body">
+                                        <h5 class="fw-bold">Are you want unlock this user ?</h5>
+                                        <p>Choose <b>Unlock</b>, The user will <b>unlock</b></p>
+
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <label for="cb_lockUser_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
+
+                                            <a href="~/User/Unlock?id=@row.User_id" class="remove btn-notify-post btn btn-danger">
+                                                Unlock
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <label for="cb_lockUser_@row.Id" class="unlock">
+                                    <i class="fa-solid fa-lock-open"></i>
+                                </label>
+                            }
+
                         </div>
                     </td>
                 </tr>
@@ -145,7 +208,12 @@
 
     <div class="pagination d-flex justify-content-between p-2">
         <p class="pagination-page">
-
+            Showing @if (Model.Count > 0)
+            {@Model[0].CurrentPage}  to
+            @if (Model.Count > 0)
+            {@Model[0].TotalPage} of
+            @if (Model.Count > 0)
+            {@Model[0].TotalPage} entries
         </p>
 
         <div class="pagination-item d-flex">
@@ -166,5 +234,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.user_select').change(function () {
+            $(this).closest('form').submit();
+        });
+    });
+</script>
 
 

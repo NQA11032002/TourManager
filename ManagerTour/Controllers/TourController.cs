@@ -67,8 +67,8 @@ namespace ManagerTour.Controllers
                         Description = row["description"].ToString(),
                         Address_start = row["address_start"].ToString(),
                         Address_end = row["address_end"].ToString(),
-                        Date_start = String.Format("{0:dd-MM-yyyy}", row["date_start"].ToString()),
-                        Date_end = String.Format("{0:dd-MM-yyyy}", row["date_end"].ToString()),
+                        Date_start = String.Format("{0:yyyy-MM-dd}", row["date_start"]),
+                        Date_end = String.Format("{0:yyyy-MM-dd}", row["date_end"]),
                         Price_tour = double.Parse(row["price_tour"].ToString()),
                         Detail_price_tour = row["detail_price_tour"].ToString(),
                         Amount_customer_maximum = Int32.Parse(row["amount_customer_maximum"].ToString()),
@@ -85,6 +85,8 @@ namespace ManagerTour.Controllers
                     ListTour.Add(tour);
                 }
             }
+
+            ViewBag.keyword = keyword;
 
             return View(ListTour);
         }
@@ -110,8 +112,8 @@ namespace ManagerTour.Controllers
                         Description = row["description"].ToString(),
                         Address_start = row["address_start"].ToString(),
                         Address_end = row["address_end"].ToString(),
-                        Date_start = String.Format("{0:dd-MM-yyyy}", row["date_start"].ToString()),
-                        Date_end = String.Format("{0:dd-MM-yyyy}", row["date_end"].ToString()),
+                        Date_start = String.Format("{0:yyyy-MM-dd}", row["date_start"]),
+                        Date_end = String.Format("{0:yyyy-MM-dd}", row["date_end"]),
                         Price_tour = double.Parse(row["price_tour"].ToString()),
                         Detail_price_tour = row["detail_price_tour"].ToString(),
                         Amount_customer_maximum = Int32.Parse(row["amount_customer_maximum"].ToString()),
@@ -269,6 +271,5 @@ namespace ManagerTour.Controllers
 
             return View("Index", ListTour);
         }
-
     }
 }

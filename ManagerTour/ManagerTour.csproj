@@ -109,12 +109,15 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\css\address_travel.css" />
     <Content Include="Content\css\detail_post.css" />
     <Content Include="Content\css\home.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\post.css" />
     <Content Include="Content\css\tour.css" />
+    <Content Include="Content\css\type_travel.css" />
     <Content Include="Content\css\user.css" />
+    <Content Include="Content\css\vehicle_travel.css" />
     <Content Include="Content\js\home.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -137,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AddressTravelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
@@ -146,9 +150,12 @@
     </Compile>
     <Compile Include="Models\Address_travel.cs" />
     <Compile Include="Models\ConnectionMySQL.cs" />
+    <Compile Include="Models\District.cs" />
     <Compile Include="Models\Posts.cs" />
+    <Compile Include="Models\Province_city.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Tours.cs" />
+    <Compile Include="Models\Town.cs" />
     <Compile Include="Models\Type_travel.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\User_information.cs" />
@@ -189,6 +196,10 @@
     <Content Include="Views\Tour\Index.cshtml" />
     <Content Include="Views\Tour\Detail.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Detail.cshtml" />
+    <Content Include="Views\AddressTravel\Index.cshtml" />
+    <Content Include="Views\AddressTravel\Detail.cshtml" />
+    <Content Include="Views\AddressTravel\Insert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

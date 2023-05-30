@@ -1,0 +1,71 @@
+﻿@model List<ManagerTour.Models.User_information>
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/Home.cshtml";
+}
+
+
+<link href="~/Content/css/detail_post.css" rel="stylesheet" />
+<link href="~/Content/css/tour.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Update", "User", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<div class="post_detail form_detail card border-0 tour_detail">
+    <h1 class="text-center fw-bold h3 mb-3 pb-3">Detail User Information</h1>
+
+    <input type="text" name="id" value="@Model[0].Id" hidden />
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        @Html.TextBoxFor(m => Model[0].Name, new { @class = "form-control title_input shadow-non" })
+        @Html.ValidationMessageFor(m => Model[0].Name)
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">BirthDay</label>
+        <input type="date" class="form-control" name="birthDay" value="@Model[0].Birth_date" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Phone</label>
+        @Html.TextBoxFor(m => Model[0].Phone, new { @class = "form-control title_input shadow-non" })
+        @Html.ValidationMessageFor(m => Model[0].Phone)
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Gender</label>
+        <select class="form-select shadow-none" name="gender">
+            @if (@Model[0].Gender == 1)
+            {
+            <option selected value="@Model[0].Gender">Nam</option>
+            <option value="@Model[0].Gender">Nữ</option>
+            }
+            else
+            {
+            <option value="@Model[0].Gender">Nam</option>
+            <option selected value="@Model[0].Gender">Nữ</option>
+            }
+        </select>
+    </div>
+
+    <div class="w-100 date_tour mb-3">
+        <label class="form-label">Address</label>
+        @Html.TextBoxFor(m => Model[0].Address, new { @class = "form-control content_input shadow-none" })
+        @Html.ValidationMessageFor(m => Model[0].Address)
+    </div>
+
+    <div class="w-100 mb-3">
+        <label class="form-label">Education</label>
+        @Html.TextBoxFor(m => Model[0].Education, new { @class = "form-control content_input shadow-none" })
+        @Html.ValidationMessageFor(m => Model[0].Education)
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <a href="~/User/Index" class="cancel_update btn">Cancel</a>
+        <button type="submit" class="update_detail btn btn-dark">Update</button>
+    </div>
+</div>
+}

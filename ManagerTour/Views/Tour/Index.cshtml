@@ -28,7 +28,7 @@
     @using (@Html.BeginForm("Index", "Tour", FormMethod.Get))
     {
         <div class="posts_search d-flex justify-content-center p-3 position-relative">
-            <input type="text" name="keyword" class="search_input border" placeholder="Enter keyword search the tour..." />
+            <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the tour..." />
             <button id="btn_search" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -43,6 +43,7 @@
                 <th scope="col" width="200px">Title</th>
                 <th scope="col">Vehicle</th>
                 <th scope="col">Description</th>
+                <th scope="col" width="200px">Date</th>
                 <th scope="col">Address</th>
                 <th scope="col">Price</th>
                 <th scope="col">Amount</th>
@@ -63,6 +64,7 @@
                     <td>
                         <p class="content">@row.Description</p>
                     </td>
+                    <td><p class="date fw-bold">@row.Date_start - @row.Date_end</p></td>
                     <td><p class="address_tour">@row.Address_start - @row.Address_end</p></td>
                     <td>$@row.Price_tour</td>
                     <td>
@@ -90,7 +92,7 @@
                             <div class="card notify-remove-post position-fixed">
                                 <div class="card-body">
                                     <h5 class="fw-bold">Are you want remove this tour ?</h5>
-                                    <p>Choose remove, The tour will remove forever</p>
+                                    <p>Choose <b>remove</b>, The tour will <b>remove forever</b></p>
 
                                     <div class="d-flex justify-content-end mt-3">
                                         <label for="cb_removePost_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>

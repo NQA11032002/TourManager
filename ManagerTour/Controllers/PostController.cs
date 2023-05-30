@@ -85,6 +85,8 @@ namespace ManagerTour.Controllers
                     }
                 }
 
+                ViewBag.keywordInput = keywordInput;
+
                 return View("Index", ListPosts);
             }
             finally 

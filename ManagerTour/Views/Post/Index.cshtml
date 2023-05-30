@@ -26,7 +26,7 @@
     @using (Html.BeginForm("Index", "Post", FormMethod.Get))
     {
         <div class="posts_search d-flex justify-content-center p-3 position-relative">
-            <input type="text" name="keywordInput" class="search_input border" placeholder="Enter keyword search the post..." />
+            <input type="text" name="keywordInput" class="search_input border" value="@ViewBag.keywordInput" placeholder="Enter keyword search the post..." />
             <button id="btn_search" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
@@ -43,6 +43,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">Content</th>
                 <th scope="col">Status</th>
+                <th scope="col">Created</th>
                 <th scope="col">Feature</th>
             </tr>
         </thead>
@@ -75,6 +76,7 @@
                             <p class="fw-bold post_status--hidden">Tạm khóa</p>
                         }
                     </td>
+                    <td>@post.Created_at</td>
                     <td>
                         <div class="user_function d-flex align-items-center">
                             <a class="detail" href="~/Post/Detail?id=@post.Id">
@@ -87,7 +89,7 @@
                             <div class="card notify-remove-post position-fixed">
                                 <div class="card-body">
                                     <h5 class="fw-bold">Are you want remove this post ?</h5>
-                                    <p>Choose remove, The post will remove forever</p>
+                                    <p>Choose <b>Remove</b>, The post will <b>remove forever</b></p>
 
                                     <div class="d-flex justify-content-end mt-3">
                                         <label for="cb_removePost_@post.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
