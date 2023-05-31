@@ -144,7 +144,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\TourController.cs" />
+    <Compile Include="Controllers\TypeTravelController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\VehicleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -200,6 +202,12 @@
     <Content Include="Views\AddressTravel\Index.cshtml" />
     <Content Include="Views\AddressTravel\Detail.cshtml" />
     <Content Include="Views\AddressTravel\Insert.cshtml" />
+    <Content Include="Views\TypeTravel\Index.cshtml" />
+    <Content Include="Views\TypeTravel\Detail.cshtml" />
+    <Content Include="Views\TypeTravel\Insert.cshtml" />
+    <Content Include="Views\Vehicle\Index.cshtml" />
+    <Content Include="Views\Vehicle\Detail.cshtml" />
+    <Content Include="Views\Vehicle\Insert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

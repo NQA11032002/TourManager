@@ -26,7 +26,7 @@ namespace ManagerTour.Controllers
         public List<Type_travel> ListType { get => _listType; set => _listType = value; }
 
         //Pagination for table user
-        private int pageSize = 16;
+        private int pageSize = 15;
         private int currentPage = 1;
         private float totalPage = 0;
 
@@ -288,8 +288,6 @@ namespace ManagerTour.Controllers
                         ListDistrict = ListDistrict,
                         ListTown = ListTown,
                         ListType = ListType,
-                        TotalPage = totalPage,
-                        CurrentPage = currentPage,
                     };
 
                     ListAddress.Add(address);
@@ -306,8 +304,8 @@ namespace ManagerTour.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string query = "UPDATE `address_travel` SET `name_travel`='"+listAddress[0].Name_travel+"',`city_matp`='"+city+"',`district_maqh`='"+district+"'," +
-                        "`town_xaid`='"+town+"',`type_travel_id`='"+type+ "',`updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "'" +
+                    string query = "UPDATE `address_travel` SET `name_travel`='" + listAddress[0].Name_travel + "',`city_matp`='" + city + "',`district_maqh`='" + district + "'," +
+                        "`town_xaid`='" + town + "',`type_travel_id`='" + type + "',`updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "'" +
                         " WHERE id = " + id;
 
                     ConnectionMySQL connect = new ConnectionMySQL();
@@ -327,6 +325,23 @@ namespace ManagerTour.Controllers
         }
 
 
+        //delete addres by ID
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                string query = "DELETE FROM `address_travel` WHERE id = " + id;
+                ConnectionMySQL connect = new ConnectionMySQL();
+                connect.ExecuteNonQuery(query);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
 
         //get view Insert address travel
         public ActionResult Insert()
@@ -339,15 +354,14 @@ namespace ManagerTour.Controllers
         {
             try
             {
+                string query = "INSERT INTO `address_travel`(`name_travel`, `city_matp`, `district_maqh`, `town_xaid`, `type_travel_id`) " +
+                    "VALUES ('" + address.Name_travel + "','" + city + "','" + district + "','" + town + "','" + type + "')";
 
-                    string query = "INSERT INTO `address_travel`(`name_travel`, `city_matp`, `district_maqh`, `town_xaid`, `type_travel_id`) " +
-                        "VALUES ('"+ address.Name_travel+ "','"+ city+ "','"+ district + "','"+ town + "','"+ type + "')";
+                ConnectionMySQL connect = new ConnectionMySQL();
+                connect.ExecuteNonQuery(query);
 
-                    ConnectionMySQL connect = new ConnectionMySQL();
-                    connect.ExecuteNonQuery(query);
+                return RedirectToAction("Index");
 
-                    return RedirectToAction("Index");
- 
             }
             catch (Exception e)
             {
