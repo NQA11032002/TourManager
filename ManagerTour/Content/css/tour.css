@@ -9,6 +9,23 @@
 	color: #CD0404
 }
 
+.tour_table .status_tour--agree {
+	color: #FC4F00;
+}
+
+.tours .filter_status {
+	font-size: 13px;
+}
+.tours .filter_status:focus
+{
+	border-color: #000;
+}
+
+.tours .tour_search
+{
+	margin: unset;
+}
+
 .tour_table .address_tour {
 	display: -webkit-box;
 	-webkit-line-clamp: 1;
@@ -41,3 +58,21 @@
 	margin-right: 10px;
 }
 
+
+.tour_detail .btn_agree {
+	background-color: #29c777;
+	color: #ffff;
+	width: 90px;
+	margin-right: 10px;
+}
+
+
+.tour_detail .btn:hover {
+	opacity: 80%;
+}
+
+
+.tours .label_index {
+	font-size: 13px;
+	font-weight: bold
+}

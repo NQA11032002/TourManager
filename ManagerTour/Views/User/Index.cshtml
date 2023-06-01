@@ -29,8 +29,9 @@
     {
         <div class="d-flex justify-content-between p-3">
             <div>
+                <label class="form-label label_index">Status</label>
                 <select class="form-select shadow-none user_select" name="filter">
-                    <option value="0" @(ViewBag.filter == "0" ? "selected" : "") >Tất cả</option>
+                    <option value="0" @(ViewBag.filter == "0" ? "selected" : "")>Tất cả</option>
                     <option value="1" @(ViewBag.filter == "1" ? "selected" : "")>Hiệu lực</option>
                     <option value="2" @(ViewBag.filter == "2" ? "selected" : "")>Tạm khóa</option>
                     <option value="3" @(ViewBag.filter == "3" ? "selected" : "")>Online</option>
@@ -38,15 +39,18 @@
                 </select>
             </div>
 
-            <div class="posts_search user_search d-flex align-items-center position-relative">
-                <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the user..." />
-                <button id="btn_search" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
+            <div class="">
+                <label class="form-label label_index">Search</label>
+                <div class="posts_search user_search d-flex align-items-center position-relative">
+                    <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the user..." />
+                    <button id="btn_search" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     }
-
 
     <table class="table">
         <thead>

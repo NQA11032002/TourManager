@@ -24,15 +24,31 @@
     </div>
 </div>
 
-<div class="posts">
+<div class="posts tours">
     @using (@Html.BeginForm("Index", "Tour", FormMethod.Get))
     {
-        <div class="posts_search d-flex justify-content-center p-3 position-relative">
-            <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the tour..." />
-            <button id="btn_search" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+        <div class="d-flex justify-content-between align-items-center p-3 ">
+            <div class="filter_city">
+                <label class="form-label label_index">Status</label>
+                <select class="form-select shadow-none user_select filter_status" name="filter_status">
+                    <option selected value="0">Tất cả</option>
+                    <option @(ViewBag.filter_status == "1" ? "selected" : "") value="1">Chờ duyệt</option>
+                    <option @(ViewBag.filter_status == "2" ? "selected" : "") value="2">Hoạt động</option>
+                    <option @(ViewBag.filter_status == "3" ? "selected" : "") value="3">Tạm dừng</option>
+                </select>
+            </div>
+
+            <div class="">
+                <label class="form-label label_index">Search</label>
+                <div class="posts_search d-flex justify-content-center position-relative tour_search">
+                    <input type="text" name="keyword" class="search_input border " value="@ViewBag.keyword" placeholder="Enter keyword search the tour..." />
+                    <button id="btn_search" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
         </div>
+
     }
 
     <table class="table tour_table">
@@ -73,11 +89,15 @@
                     <td>
                         @if (row.Status == 0)
                         {
-                            <p class="status_tour fw-bold status_tour--drop">Tạm dừng</p>
+                            <p class="status_tour fw-bold status_tour--agree">Chờ duyệt</p>
                         }
                         else if (row.Status == 1)
                         {
                             <p class="status_tour fw-bold status_tour--activity">Hoạt động</p>
+                        }
+                        else if (row.Status == 2)
+                        {
+                            <p class="status_tour fw-bold status_tour--drop">Tạm dừng</p>
                         }
                     </td>
                     <td>
@@ -144,3 +164,11 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $('.filter_status').change(function () {
+            $(this).closest('form').submit();
+        });
+
+    });
+</script>

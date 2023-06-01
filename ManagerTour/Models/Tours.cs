@@ -24,8 +24,11 @@ namespace ManagerTour.Models
         private int _status;
         private int _currentPage;
         private float _totalPage;
+        private int _month;
+        private int _count;
         private string _created_at;
         private string _updated_at;
+        private int _minute;
         private User_information _user;
         private Vehicles _vehicles;
         private List<Vehicles> _listVehicle;
@@ -63,5 +66,8 @@ namespace ManagerTour.Models
         public List<Vehicles> ListVehicle { get => _listVehicle; set => _listVehicle = value; }
         public float TotalPage { get => _totalPage; set => _totalPage = value; }
         public int CurrentPage { get => _currentPage; set => _currentPage = value; }
+        public int Minute { get => _minute; set => _minute = value; }
+        public int Month { get => _month; set => _month = value; }
+        public int Count { get => _count; set => _count = value; }
     }
 }

@@ -24,7 +24,7 @@
                         <img class="avatar" src="https://colorlib.com/polygon/gentelella/images/img.jpg" />
                         <div class="infor_login">
                             <h3 class="h6">Welcome</h3>
-                            <p class="name">John Doe</p>
+                            <p class="name">@((Session["user"] as ManagerTour.Models.User_information).Name)</p>
                         </div>
                     </div>
                 </li>
@@ -105,11 +105,11 @@
 
                         <label for="cbdropheader" class="header-info_name d-flex align-items-center">
                             <img src="https://colorlib.com/polygon/gentelella/images/img.jpg" />
-                            <p>John Doe</p>
+                            <p>@((Session["user"] as ManagerTour.Models.User_information).Name)</p>
                             <i class="fa-solid fa-angle-down"></i>
                         </label>
 
-                        <div class="card header_personally position-fixed">
+                        <div class="card header_personally position-absolute">
                             <ul class="navbar d-flex flex-column">
                                 <li class="nav-item d-flex align-items-center">
                                     <i class="fa-solid fa-address-card flex-shrink-0"></i>

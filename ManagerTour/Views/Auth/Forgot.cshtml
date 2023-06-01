@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Forgot";
+    Layout = "~/Views/Shared/Auth.cshtml";
+}
+
+
+<div class="container" id="container">
+
+    <div class="form-container sign-in-container">
+        @using (Html.BeginForm("sendMailOTP", "Auth", FormMethod.Post))
+        {
+            <h1 class="w-100">Forgot</h1>
+            <span>use your email to receive OTP, after use this OTP to reset password </span>
+            <input type="email" placeholder="Email" name="email" class="login_input first_input" />
+
+            if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+            {
+                <span class="error_login">@TempData["ErrorMessage"]</span>
+            }
+
+            <button>Send mail</button>
+        }
+
+    </div>
+
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Back to login to start journey with us</p>
+                <a class="back_login" id="signUp" href="/Auth/Login">SIGN UP</a>
+            </div>
+        </div>
+    </div>
+</div>
+

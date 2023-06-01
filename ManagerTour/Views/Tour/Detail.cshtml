@@ -20,13 +20,13 @@
 
         <div class="mb-3">
             <label class="form-label">Title</label>
-            @Html.TextBoxFor(m => Model[0].Title, new { @class = "form-control title_input shadow-non"})
+            @Html.TextBoxFor(m => Model[0].Title, new { @class = "form-control title_input shadow-non" })
             @Html.ValidationMessageFor(m => Model[0].Title)
         </div>
 
         <div class="mb-3">
             <label class="form-label">Description</label>
-            @Html.TextAreaFor(m => Model[0].Description, new {rows = 10 , @class = "form-control content_input shadow-none" })
+            @Html.TextAreaFor(m => Model[0].Description, new { rows = 10, @class = "form-control content_input shadow-none" })
             @Html.ValidationMessageFor(m => Model[0].Description)
         </div>
 
@@ -66,7 +66,7 @@
 
         <div class="mb-3">
             <label class="form-label">Detail Price</label>
-            @Html.TextAreaFor(m => Model[0].Detail_price_tour, new { rows = 4,  @class = "form-control content_input shadow-none" })
+            @Html.TextAreaFor(m => Model[0].Detail_price_tour, new { rows = 4, @class = "form-control content_input shadow-none" })
             @Html.ValidationMessageFor(m => Model[0].Detail_price_tour)
         </div>
 
@@ -74,33 +74,6 @@
             <label class="form-label">Amount</label>
             @Html.TextBoxFor(m => Model[0].Amount_customer_maximum, new { type = "number", @class = "form-control content_input shadow-none" })
             @Html.ValidationMessageFor(m => Model[0].Amount_customer_maximum)
-        </div>
-
-        <div class="d-flex align-items-center mb-3">
-            @if (Model[0].Status == 1)
-            {
-                <label for="cb_status_tour_1" class="rd_status_tour d-flex align-items-center">
-                    <input type="radio" checked id="cb_status_tour_1" class="cb_status_tour" value="1" name="status_tour" />
-                    Hoạt động
-                </label>
-
-                <label for="cb_status_tour_0" class="rd_status_tour d-flex align-items-center">
-                    <input type="radio" id="cb_status_tour_0" value="0" class="cb_status_tour" name="status_tour" />
-                    Tạm dừng
-                </label>
-            }
-            else
-            {
-                <label for="cb_status_tour_1" class="rd_status_tour d-flex align-items-center">
-                    <input type="radio" id="cb_status_tour_1" value="1" class="cb_status_tour" name="status_tour" />
-                    Hoạt động
-                </label>
-
-                <label for="cb_status_tour_0" class="rd_status_tour d-flex align-items-center">
-                    <input type="radio" checked id="cb_status_tour_0" class="cb_status_tour" value="0" name="status_tour" />
-                    Tạm dừng
-                </label>
-            }
         </div>
 
         <label class="form-label">Vehicle</label>
@@ -119,8 +92,35 @@
             }
         </select>
 
+        <label class="form-label">Status</label>
+        <div class="d-flex align-items-center mb-3">
+            @if (Model[0].Status == 0)
+            {
+                <label for="cb_status_tour_0" class="rd_status_tour d-flex align-items-center">
+                    <input type="radio" @(Model[0].Status == 0 ? "checked" : "") id="cb_status_tour_0" value="0" class="cb_status_tour" name="status_tour" />
+                    Chờ duyệt
+                </label>
+            }
+
+
+            <label for="cb_status_tour_1" class="rd_status_tour d-flex align-items-center">
+                <input type="radio" @(Model[0].Status == 0 ? "disabled" : "") @(Model[0].Status == 1 ? "checked" : "") id="cb_status_tour_1" class="cb_status_tour" value="1" name="status_tour" />
+                Hoạt động
+            </label>
+
+            <label for="cb_status_tour_2" class="rd_status_tour d-flex align-items-center">
+                <input type="radio" @(Model[0].Status == 0 ? "disabled" : "") @(Model[0].Status == 2 ? "checked" : "") id="cb_status_tour_2" value="2" class="cb_status_tour" name="status_tour" />
+                Tạm dừng
+            </label>
+
+        </div>
+
         <div class="d-flex justify-content-end">
             <a href="~/Tour/Index" class="cancel_update btn">Cancel</a>
+            @if (@Model[0].Status == 0)
+            {
+                <a href="~/Tour/AgreeTour?id=@Model[0].Id" class="btn_agree btn">Agree</a>
+            }
             <button type="submit" class="update_detail btn btn-dark">Update</button>
         </div>
     </div>

@@ -27,20 +27,64 @@ namespace ManagerTour.Controllers
         // GET: Vehicle
         public ActionResult Index(string keyword = null)
         {
-            try
+            if (Session["user"] != null)
             {
-                string query = "SELECT * FROM `vehicles`";
-
-                //if search keyword != null and != empty is perform
-                if (!string.IsNullOrEmpty(keyword) && !string.IsNullOrWhiteSpace(keyword))
+                try
                 {
-                    query += " WHERE name like '%" + keyword + "%'";
+                    string query = "SELECT * FROM `vehicles`";
+
+                    //if search keyword != null and != empty is perform
+                    if (!string.IsNullOrEmpty(keyword) && !string.IsNullOrWhiteSpace(keyword))
+                    {
+                        query += " WHERE name like '%" + keyword + "%'";
+                    }
+
+                    int totalRecords = (currentPage - 1) * pageSize;
+
+                    query += " ORDER BY id LIMIT " + pageSize + " OFFSET " + totalRecords;
+
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    DataTable dt = new DataTable();
+                    dt = connect.SelectData(query).Tables[0];
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            Vehicles vehicle = new Vehicles
+                            {
+                                Id = Int32.Parse(row["id"].ToString()),
+                                Name = row["name"].ToString(),
+                                Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
+                                Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
+                                TotalPage = totalPage,
+                                CurrentPage = currentPage,
+                            };
+
+                            ListVehicle.Add(vehicle);
+                        }
+                    }
+
+                    ViewBag.keyword = keyword;
+
+                    return View("Index", ListVehicle);
                 }
+                finally
+                {
 
-                int totalRecords = (currentPage - 1) * pageSize;
+                }
+            }
 
-                query += " ORDER BY id LIMIT " + pageSize + " OFFSET " + totalRecords;
+            return RedirectToAction("Login", "Auth");
+        }
 
+
+        //get view detail vehicle travel
+        public ActionResult Detail(int id)
+        {
+            if (Session["user"] != null)
+            {
+                string query = "SELECT * FROM vehicles WHERE id = " + id;
                 ConnectionMySQL connect = new ConnectionMySQL();
                 DataTable dt = new DataTable();
                 dt = connect.SelectData(query).Tables[0];
@@ -55,101 +99,82 @@ namespace ManagerTour.Controllers
                             Name = row["name"].ToString(),
                             Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
                             Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
-                            TotalPage = totalPage,
-                            CurrentPage = currentPage,
                         };
 
                         ListVehicle.Add(vehicle);
                     }
                 }
 
-                ViewBag.keyword = keyword;
-
-                return View("Index", ListVehicle);
-            }
-            finally
-            {
-
-            }
-        }
-
-
-        //get view detail vehicle travel
-        public ActionResult Detail(int id)
-        {
-            string query = "SELECT * FROM vehicles WHERE id = " + id;
-            ConnectionMySQL connect = new ConnectionMySQL();
-            DataTable dt = new DataTable();
-            dt = connect.SelectData(query).Tables[0];
-
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    Vehicles vehicle = new Vehicles
-                    {
-                        Id = Int32.Parse(row["id"].ToString()),
-                        Name = row["name"].ToString(),
-                        Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
-                        Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
-                    };
-
-                    ListVehicle.Add(vehicle);
-                }
+                return View(ListVehicle);
             }
 
-            return View(ListVehicle);
+            return RedirectToAction("Login", "Auth");
         }
 
         //update information of the vehicle travel 
         public ActionResult Update(int id, List<Vehicles> listVehicle)
         {
-            try
+            if (Session["user"] != null)
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    string query = "UPDATE `vehicles` SET `name`='" + listVehicle[0].Name + "' , `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "' WHERE id = " + id;
+                    if (ModelState.IsValid)
+                    {
+                        string query = "UPDATE `vehicles` SET `name`='" + listVehicle[0].Name + "' , `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "' WHERE id = " + id;
 
-                    ConnectionMySQL connect = new ConnectionMySQL();
-                    connect.ExecuteNonQuery(query);
+                        ConnectionMySQL connect = new ConnectionMySQL();
+                        connect.ExecuteNonQuery(query);
 
-                    return RedirectToAction("Index");
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Detail");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     return RedirectToAction("Detail");
                 }
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("Detail");
-            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
 
         //get view Insert vehicle travel
         public ActionResult Insert()
         {
-            return View(new Vehicles());
+            if (Session["user"] != null)
+            {
+                return View(new Vehicles());
+            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
         //perform insert vehicle travel
         public ActionResult postInsert(Type_travel type)
         {
-            try
+            if (Session["user"] != null)
             {
-                string query = "INSERT INTO `vehicles`(`name`) VALUES ('" + type.Name + "')";
+                try
+                {
+                    string query = "INSERT INTO `vehicles`(`name`) VALUES ('" + type.Name + "')";
 
-                ConnectionMySQL connect = new ConnectionMySQL();
-                connect.ExecuteNonQuery(query);
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    connect.ExecuteNonQuery(query);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
 
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
         //get total vehicle
@@ -176,18 +201,23 @@ namespace ManagerTour.Controllers
         //delete vehicle by ID
         public ActionResult Delete(int id)
         {
-            try
+            if (Session["user"] != null)
             {
-                string query = "DELETE FROM `vehicles` WHERE id = " + id;
-                ConnectionMySQL connect = new ConnectionMySQL();
-                connect.ExecuteNonQuery(query);
+                try
+                {
+                    string query = "DELETE FROM `vehicles` WHERE id = " + id;
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    connect.ExecuteNonQuery(query);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
 

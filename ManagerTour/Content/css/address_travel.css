@@ -24,3 +24,9 @@
 	width: 120px;
 	background-color: #2A3F54;
 }
+
+.address_travel .label_index
+{
+	font-size: 13px;
+	font-weight: bold
+}

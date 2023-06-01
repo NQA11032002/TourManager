@@ -12,6 +12,8 @@ namespace ManagerTour.Models
         private string _email;
         private string _password;
         private int _status;
+        private string _otp;
+        private string _expire;
         private string _created_at;
         private string _update_at;
         private int _currentPage;
@@ -25,5 +27,7 @@ namespace ManagerTour.Models
         public string Update_at { get => _update_at; set => _update_at = value; }
         public float TotalPage { get => _totalPage; set => _totalPage = value; }
         public int CurrentPage { get => _currentPage; set => _currentPage = value; }
+        public string Otp { get => _otp; set => _otp = value; }
+        public string Expire { get => _expire; set => _expire = value; }
     }
 }

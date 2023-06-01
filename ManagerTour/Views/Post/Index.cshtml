@@ -25,12 +25,30 @@
 <div class="posts">
     @using (Html.BeginForm("Index", "Post", FormMethod.Get))
     {
-        <div class="posts_search d-flex justify-content-center p-3 position-relative">
-            <input type="text" name="keywordInput" class="search_input border" value="@ViewBag.keywordInput" placeholder="Enter keyword search the post..." />
-            <button id="btn_search" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+        <div class="d-flex align-items-center p-3 justify-content-between">
+            <div>
+                <label class="form-label label_index">Type travel</label>
+                <select class="form-select shadow-none user_select filter_type" name="filter_type">
+                    <option selected value="0">Tất cả</option>
+
+                    @foreach (var row in ViewBag.ListTypeTravel)
+                    {
+                        <option @(ViewBag.filter_type == row.Id ? "selected" : "") value="@row.Id">@row.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="form-label label_index">Search</label>
+                <div class="posts_search d-flex justify-content-center position-relative search_input--contain">
+                    <input type="text" name="keywordInput" class="search_input border" value="@ViewBag.keywordInput" placeholder="Enter keyword search the post..." />
+                    <button id="btn_search" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
         </div>
+
     }
 
     <table class="table">
@@ -123,7 +141,7 @@
         </p>
 
         <div class="pagination-item d-flex">
-            @using(Html.BeginForm("PreviousPage", "Post", FormMethod.Get))
+            @using (Html.BeginForm("PreviousPage", "Post", FormMethod.Get))
             {
                 <button class="pagination-left pagination-arrow">
                     <i class="fa-solid fa-arrow-left"></i>
@@ -131,7 +149,7 @@
             }
 
 
-            @using(Html.BeginForm("NextPage", "Post", FormMethod.Get))
+            @using (Html.BeginForm("NextPage", "Post", FormMethod.Get))
             {
                 <button class="pagination-right pagination-arrow">
                     <i class="fa-solid fa-arrow-right"></i>
@@ -140,3 +158,13 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.filter_type').change(function () {
+            $(this).closest('form').submit();
+        });
+
+    });
+</script>

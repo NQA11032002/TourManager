@@ -28,114 +28,124 @@ namespace ManagerTour.Controllers
         // GET: User
         public ActionResult Index(string keyword = null, string filter = "0")
         {
-            string query = "SELECT i.id, i.user_id, i.name, i.birth_date, i.gender, i.address, i.phone, i.education, i.image, i.is_login, i.created_at, i.updated_at, users.email, users.status, users.role_id" +
+            if (Session["user"] != null)
+            {
+                string query = "SELECT i.id, i.user_id, i.name, i.birth_date, i.gender, i.address, i.phone, i.education, i.image, i.is_login, i.created_at, i.updated_at, users.email, users.status, users.role_id" +
                             " FROM `user_information` as i join users on i.user_id = users.id";
 
-            //if filter exists perform filter value from database
-            if(!string.IsNullOrEmpty(filter) && !string.IsNullOrWhiteSpace(filter))
-            {
-                switch (filter)
+                //if filter exists perform filter value from database
+                if (!string.IsNullOrEmpty(filter) && !string.IsNullOrWhiteSpace(filter))
                 {
-                    case "1":
-                        query += " WHERE users.status = 1";
-                        break;
-                    case "2":
-                        query += " WHERE users.status = 0";
-                        break;
-                    case "3":
-                        query += " WHERE i.is_login = 1";
-                        break;
-                    case "4":
-                        query += " WHERE i.is_login = 0";
-                        break;
-                    default: break;
-                }
-            }
-
-            //if keyword search exists perform search with field name
-            if (!string.IsNullOrEmpty(keyword) && !string.IsNullOrWhiteSpace(keyword))
-            {
-                query += " and i.name like '%" + keyword + "%'";
-            }
-
-            int totalRecords = (currentPage - 1) * pageSize;
-
-            query += " LIMIT " + pageSize + " OFFSET " + totalRecords;
-
-            ConnectionMySQL connect = new ConnectionMySQL();
-            DataTable dt = new DataTable();
-            dt = connect.SelectData(query).Tables[0];
-
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    User_information user = new User_information
+                    switch (filter)
                     {
-                        Id = Int32.Parse(row["id"].ToString()),
-                        User_id = Int32.Parse(row["user_id"].ToString()),
-                        Name = row["name"].ToString(),
-                        Birth_date = String.Format("{0:yyyy-MM-dd}", row["birth_date"]),
-                        Gender = Int32.Parse(row["gender"].ToString()),
-                        Address = row["address"].ToString(),
-                        Phone = row["phone"].ToString(),
-                        Education = row["education"].ToString(),
-                        Image = row["image"].ToString(),
-                        Is_login = Int32.Parse(row["is_login"].ToString()),
-                        Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"].ToString()),
-                        Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"].ToString()),
-                        User = new Users { Email = row["email"].ToString(), Role_id = Int32.Parse(row["role_id"].ToString()), Status = Int32.Parse(row["status"].ToString()) },
-                        TotalPage = totalPage,
-                        CurrentPage = currentPage,
-                    };
-
-                    ListUser.Add(user);
+                        case "1":
+                            query += " WHERE users.status = 1";
+                            break;
+                        case "2":
+                            query += " WHERE users.status = 0";
+                            break;
+                        case "3":
+                            query += " WHERE i.is_login = 1";
+                            break;
+                        case "4":
+                            query += " WHERE i.is_login = 0";
+                            break;
+                        default: break;
+                    }
                 }
+
+                //if keyword search exists perform search with field name
+                if (!string.IsNullOrEmpty(keyword) && !string.IsNullOrWhiteSpace(keyword))
+                {
+                    query += " and i.name like '%" + keyword + "%'";
+                }
+
+                int totalRecords = (currentPage - 1) * pageSize;
+
+                query += " LIMIT " + pageSize + " OFFSET " + totalRecords;
+
+                ConnectionMySQL connect = new ConnectionMySQL();
+                DataTable dt = new DataTable();
+                dt = connect.SelectData(query).Tables[0];
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        User_information user = new User_information
+                        {
+                            Id = Int32.Parse(row["id"].ToString()),
+                            User_id = Int32.Parse(row["user_id"].ToString()),
+                            Name = row["name"].ToString(),
+                            Birth_date = String.Format("{0:yyyy-MM-dd}", row["birth_date"]),
+                            Gender = Int32.Parse(row["gender"].ToString()),
+                            Address = row["address"].ToString(),
+                            Phone = row["phone"].ToString(),
+                            Education = row["education"].ToString(),
+                            Image = row["image"].ToString(),
+                            Is_login = Int32.Parse(row["is_login"].ToString()),
+                            Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"].ToString()),
+                            Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"].ToString()),
+                            User = new Users { Email = row["email"].ToString(), Role_id = Int32.Parse(row["role_id"].ToString()), Status = Int32.Parse(row["status"].ToString()) },
+                            TotalPage = totalPage,
+                            CurrentPage = currentPage,
+                        };
+
+                        ListUser.Add(user);
+                    }
+                }
+
+                //save value into viewbag to show client after search or filter
+                ViewBag.keyword = keyword;
+                ViewBag.filter = filter;
+
+                return View(ListUser);
             }
 
-            //save value into viewbag to show client after search or filter
-            ViewBag.keyword = keyword;
-            ViewBag.filter = filter;
-
-            return View(ListUser);
+            return RedirectToAction("Login", "Auth");
         }
 
 
         //get view detail
         public ActionResult Detail(int id)
         {
-            string query = "SELECT * FROM user_information WHERE id = " + id;
-            ConnectionMySQL connect = new ConnectionMySQL();
-            DataTable dt = new DataTable();
-            dt = connect.SelectData(query).Tables[0];
-
-            if (dt.Rows.Count > 0)
+            if (Session["user"] != null)
             {
-                foreach (DataRow row in dt.Rows)
+                string query = "SELECT * FROM user_information WHERE id = " + id;
+                ConnectionMySQL connect = new ConnectionMySQL();
+                DataTable dt = new DataTable();
+                dt = connect.SelectData(query).Tables[0];
+
+                if (dt.Rows.Count > 0)
                 {
-                    User_information user = new User_information
+                    foreach (DataRow row in dt.Rows)
                     {
-                        Id = Int32.Parse(row["id"].ToString()),
-                        User_id = Int32.Parse(row["user_id"].ToString()),
-                        Name = row["name"].ToString(),
-                        Birth_date = String.Format("{0:yyyy-MM-dd}", row["birth_date"]),
-                        Gender = Int32.Parse(row["gender"].ToString()),
-                        Address = row["address"].ToString(),
-                        Phone = row["phone"].ToString(),
-                        Education = row["education"].ToString(),
-                        Image = row["image"].ToString(),
-                        Is_login = Int32.Parse(row["is_login"].ToString()),
-                        Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
-                        Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
-                    };
+                        User_information user = new User_information
+                        {
+                            Id = Int32.Parse(row["id"].ToString()),
+                            User_id = Int32.Parse(row["user_id"].ToString()),
+                            Name = row["name"].ToString(),
+                            Birth_date = String.Format("{0:yyyy-MM-dd}", row["birth_date"]),
+                            Gender = Int32.Parse(row["gender"].ToString()),
+                            Address = row["address"].ToString(),
+                            Phone = row["phone"].ToString(),
+                            Education = row["education"].ToString(),
+                            Image = row["image"].ToString(),
+                            Is_login = Int32.Parse(row["is_login"].ToString()),
+                            Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
+                            Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
+                        };
 
 
-                    ListUser.Add(user);
+                        ListUser.Add(user);
+                    }
+
                 }
 
+                return View(ListUser);
             }
 
-            return View(ListUser);
+            return RedirectToAction("Login", "Auth");
         }
 
         //get total users
@@ -163,80 +173,100 @@ namespace ManagerTour.Controllers
         //update information of the user 
         public ActionResult Update(int id, string birthDay, int gender, List<User_information> user)
         {
-            try
+            if (Session["user"] != null)
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    string query = "UPDATE `user_information` SET `name`='"+user[0].Name+"',`birth_date`='"+birthDay+"',`gender`='"+gender+ "',`address`='" + user[0].Address + "'," +
-                        "`phone`='" + user[0].Phone + "',`education`='" + user[0].Education + "', `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "' WHERE id = " + id;
-                    ConnectionMySQL connect = new ConnectionMySQL();
-                    connect.ExecuteNonQuery(query);
+                    if (ModelState.IsValid)
+                    {
+                        string query = "UPDATE `user_information` SET `name`='" + user[0].Name + "',`birth_date`='" + birthDay + "',`gender`='" + gender + "',`address`='" + user[0].Address + "'," +
+                            "`phone`='" + user[0].Phone + "',`education`='" + user[0].Education + "', `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "' WHERE id = " + id;
+                        ConnectionMySQL connect = new ConnectionMySQL();
+                        connect.ExecuteNonQuery(query);
 
-                    return RedirectToAction("Index");
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Detail");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     return RedirectToAction("Detail");
                 }
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("Detail");
-            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
 
         //delete user by ID
         public ActionResult Delete(int id)
         {
-            try
+            if (Session["user"] != null)
             {
-                string query = "DELETE FROM `user_information` WHERE id = " + id;
-                ConnectionMySQL connect = new ConnectionMySQL();
-                connect.ExecuteNonQuery(query);
+                try
+                {
+                    string query = "DELETE FROM `user_information` WHERE id = " + id;
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    connect.ExecuteNonQuery(query);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
 
         //lock user by ID
         public ActionResult Lock(int id)
         {
-            try
+            if (Session["user"] != null)
             {
-                string query = "UPDATE users SET status = 0 WHERE id = " + id;
-                ConnectionMySQL connect = new ConnectionMySQL();
-                connect.ExecuteNonQuery(query);
+                try
+                {
+                    string query = "UPDATE users SET status = 0 WHERE id = " + id;
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    connect.ExecuteNonQuery(query);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
 
         //lock user by ID
         public ActionResult Unlock(int id)
         {
-            try
+            if (Session["user"] != null)
             {
-                string query = "UPDATE users SET status = 1 WHERE id = " + id;
-                ConnectionMySQL connect = new ConnectionMySQL();
-                connect.ExecuteNonQuery(query);
+                try
+                {
+                    string query = "UPDATE users SET status = 1 WHERE id = " + id;
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    connect.ExecuteNonQuery(query);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index");
+                }
             }
-            catch (Exception e)
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Login", "Auth");
         }
 
         //pagination next page

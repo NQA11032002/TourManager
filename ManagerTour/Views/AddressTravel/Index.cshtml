@@ -31,6 +31,7 @@
         <div class="d-flex justify-content-between p-3">
             <div class="d-flex align-items-center">
                 <div class="filter_city">
+                    <label class="form-label label_index">City</label>
                     <select class="form-select shadow-none user_select select_city" name="filter_city">
                         <option value="0">Tất cả</option>
 
@@ -43,6 +44,7 @@
                 </div>
 
                 <div class="filter_district">
+                    <label class="form-label label_index">District</label>
                     <select class="form-select shadow-none user_select select_district" name="filter_district">
                         <option value="0">Tất cả</option>
 
@@ -57,6 +59,7 @@
                 </div>
 
                 <div class="filter_town">
+                    <label class="form-label label_index">Town</label>
                     <select class="form-select shadow-none user_select select_town" name="filter_town">
                         <option value="0">Tất cả</option>
 
@@ -72,6 +75,7 @@
                 </div>
 
                 <div class="filter_type">
+                    <label class="form-label label_index">Type Travel</label>
                     <select class="form-select shadow-none user_select select_type" name="filter_type">
                         <option value="0">Tất cả</option>
 
@@ -83,14 +87,18 @@
                 </div>
             </div>
 
-            <div class="posts_search d-flex justify-content-center position-relative search_address">
-                <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the address travel..." />
-                <button id="btn_search" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
+            <div class=" search_address">
+                <label class="form-label label_index">Search</label>
+
+                <div class="posts_search d-flex justify-content-center position-relative">
+                    <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the address travel..." />
+                    <button id="btn_search" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
             </div>
 
-            <div class="insert_address">
+            <div class="insert_address mt-auto">
                 <a class="btn btn-dark fw-bold" href="/AddressTravel/Insert">Insert</a>
             </div>
         </div>

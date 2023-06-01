@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/Auth.cshtml";
+}
+
+<div class="container" id="container">
+
+    <div class="form-container sign-in-container">
+        @using (Html.BeginForm("isLogin", "Auth", FormMethod.Post))
+        {
+            <h1>Sign in</h1>
+            <span>use your email to login</span>
+            <input type="email" placeholder="Email" name="email" class="login_input login_first_input" />
+            <input type="password" placeholder="Password" name="password" class="login_input" />
+
+            if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+            {
+                <span class="error_login">@TempData["ErrorMessage"]</span>
+            }
+            <div class="d-flex justify-content-between align-items-center function_login">
+                <label for="cb_login" class="d-flex save_login">
+                    <input id="cb_login" type="checkbox" name="cb_login" value="true"/>
+                    Remember me
+                </label>
+                <a href="/Auth/Forgot">Forgot your password?</a>
+            </div>
+            <button>Sign In</button>
+        }
+
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal details and start journey with us</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>

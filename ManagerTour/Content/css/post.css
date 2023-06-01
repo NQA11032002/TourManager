@@ -74,6 +74,9 @@
     outline: none;
     height: 35px;
 }
+.posts_search > .search_input:focus {
+    border-color: #000 !important;
+}
 
 
 .posts_search > #btn_search
@@ -81,7 +84,7 @@
     background: transparent;
     border: unset;
     position: absolute;
-    right: 15px;
+    right: 0px;
     color: #9b9aba;
     top: 50%;
     transform: translateY(-50%);
@@ -172,4 +175,20 @@
 }
 .post_status--hidden {
     color: #CD0404;
+}
+
+.posts .label_index {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.posts .filter_type {
+    font-size: 13px;
+}
+.posts .filter_type:focus {
+    border-color: #000;
+}
+
+.posts .search_input--contain {
+    margin: unset
 }

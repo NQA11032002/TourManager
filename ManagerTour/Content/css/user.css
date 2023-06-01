@@ -104,3 +104,7 @@
 	display: block;
 }
 
+.users .label_index {
+	font-size: 13px;
+	font-weight: bold
+}
