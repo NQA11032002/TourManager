@@ -26,12 +26,17 @@ namespace ManagerTour.Controllers
             //if exists cookie save email and password is perform login
             if (email != null && password != null)
             {
-                return isLogin(email.Value.ToString(), password.Value.ToString());
+                if (!String.IsNullOrEmpty(email.ToString()) && !String.IsNullOrEmpty(password.ToString()))
+                {
+                    return isLogin(email.Value.ToString(), password.Value.ToString());
+                }
+                else
+                {
+                    return View();
+                }
             }
-            else
-            {
-                return View();
-            }
+
+            return View();
         }
 
         //is login
@@ -104,7 +109,8 @@ namespace ManagerTour.Controllers
                     TempData["ErrorMessage"] = "Tài khoản không tồn tại!!!";
                 }
 
-            }catch
+            }
+            catch
             {
 
             }
@@ -273,6 +279,23 @@ namespace ManagerTour.Controllers
             var random = new Random();
             var randomString = new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
             return randomString;
+        }
+
+        //log out 
+        public ActionResult LogOut()
+        {
+            var userSession = Session["user"];
+
+            if (userSession != null)
+            {
+                Session.Remove("user");
+                Response.Cookies["email"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["pasasword"].Expires = DateTime.Now.AddDays(-1);
+
+                return RedirectToAction("Login");
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
