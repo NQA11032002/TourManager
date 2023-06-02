@@ -66,10 +66,6 @@ namespace ManagerTour.Controllers
                             User_id = Int32.Parse(row["user_id"].ToString()),
                             Name = row["name"].ToString(),
                             Birth_date = String.Format("{0:yyyy-MM-dd}", row["birth_date"]),
-                            Gender = Int32.Parse(row["gender"].ToString()),
-                            Address = row["address"].ToString(),
-                            Phone = row["phone"].ToString(),
-                            Education = row["education"].ToString(),
                             Image = row["image"].ToString(),
                             Is_login = Int32.Parse(row["is_login"].ToString()),
                             Created_at = String.Format("{0:yyyy-MM-dd}", row["created_at"]),
@@ -80,7 +76,6 @@ namespace ManagerTour.Controllers
                         ListUser.Add(user);
                     }
                 }
-
 
                 return ListUser;
             }
@@ -176,7 +171,7 @@ namespace ManagerTour.Controllers
             {
                 string query = "SELECT t.id, t.user_id, t.vehicle_id, t.title, t.description, t.address_start, t.address_end, t.date_start, t.date_end, " +
                                 "t.price_tour, t.detail_price_tour, t.amount_customer_maximum, t.amount_customer_present, t.status, t.created_at, u.name as userName, v.name as vehicleName, t.created_at, t.updated_at" +
-                                " FROM tours as t join user_information as u on t.user_id = u.id join vehicles as v on t.vehicle_id = v.id ORDER BY t.id DESC LIMIT 7";
+                                " FROM tours as t join user_information as u on t.user_id = u.id join vehicles as v on t.vehicle_id = v.id ORDER BY t.id DESC LIMIT 6";
 
                 ConnectionMySQL connect = new ConnectionMySQL();
                 DataTable dt = new DataTable();

@@ -14,9 +14,9 @@
             <span>use your email to receive OTP, after use this OTP to reset password </span>
             <input type="email" placeholder="Email" name="email" class="login_input first_input" />
 
-            if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+            if (!string.IsNullOrEmpty(TempData["errorSendMail"] as string))
             {
-                <span class="error_login">@TempData["ErrorMessage"]</span>
+                <span class="error_login">@TempData["errorSendMail"]</span>
             }
 
             <button>Send mail</button>

@@ -11,7 +11,7 @@
 
 .home_content > .home_content-1 {
 	display: grid;
-	grid-template-columns: 65% calc(35% - 30px);
+	grid-template-columns: 60% calc(40% - 30px);
 	column-gap: 30px;
 }
 
@@ -24,7 +24,7 @@
 
 .home_content-1--right {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 	grid-gap: 20px;
 }
 

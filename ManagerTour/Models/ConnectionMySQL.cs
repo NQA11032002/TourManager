@@ -37,6 +37,19 @@ namespace ManagerTour.Models
             }
         }
 
+        //ExecuteScalar
+        public object ExecuteScalar(string query)
+        {
+            using (MySqlConnection Connection = new MySqlConnection(strConnect))
+            {
+                Connection.Open();
+
+                MySqlCommand cmd = new MySqlCommand(query, Connection);
+                var row = cmd.ExecuteScalar();
+
+                return row;
+            }
+        }
 
         //ExecuteNonQuery
         public void ExecuteNonQuery(string query)

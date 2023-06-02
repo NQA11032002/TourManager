@@ -248,6 +248,8 @@ input {
 	color: #CD1818;
 	font-size: 12px;
 	font-weight: bold;
+	text-align: left;
+	padding-bottom: 10px;
 }
 
 .save_login
