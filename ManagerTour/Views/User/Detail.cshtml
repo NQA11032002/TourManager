@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/Home.cshtml";
 }
 
-
 <link href="~/Content/css/detail_post.css" rel="stylesheet" />
 <link href="~/Content/css/tour.css" rel="stylesheet" />
 
@@ -38,16 +37,8 @@
     <div class="mb-3">
         <label class="form-label">Gender</label>
         <select class="form-select shadow-none" name="gender">
-            @if (@Model[0].Gender == 1)
-            {
-            <option selected value="@Model[0].Gender">Nam</option>
-            <option value="@Model[0].Gender">Nữ</option>
-            }
-            else
-            {
-            <option value="@Model[0].Gender">Nam</option>
-            <option selected value="@Model[0].Gender">Nữ</option>
-            }
+            <option @(Model[0].Gender == 1 ? "selected" : "") value="1">Nam</option>
+            <option @(Model[0].Gender == 0 ? "selected" : "") value="0">Nữ</option>
         </select>
     </div>
 

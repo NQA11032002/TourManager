@@ -113,12 +113,12 @@
                             <ul class="navbar d-flex flex-column">
                                 <li class="nav-item d-flex align-items-center">
                                     <i class="fa-solid fa-address-card flex-shrink-0"></i>
-                                    <a class="nav-link">Profile</a>
+                                    <a class="nav-link" href="/User/Detail?id=@((Session["user"] as ManagerTour.Models.User_information).Id)">Profile</a>
                                 </li>
 
                                 <li class="nav-item d-flex align-items-center">
                                     <i class="fa-solid fa-lock flex-shrink-0"></i>
-                                    <a class="nav-link">Change Password</a>
+                                    <a class="nav-link" href="/User/ChangePassword">Change Password</a>
                                 </li>
 
                                 <li class="nav-item d-flex align-items-center">

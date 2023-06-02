@@ -44,8 +44,7 @@ namespace ManagerTour.Controllers
         {
             try
             {
-
-                var query = "SELECT * FROM users WHERE email = '" + email + "' and role_id = 1";
+                var query = "SELECT * FROM users WHERE email = '" + email + "' and role_id = 1 and status = 1";
 
                 ConnectionMySQL connect = new ConnectionMySQL();
                 DataTable dt = new DataTable();
@@ -106,9 +105,8 @@ namespace ManagerTour.Controllers
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Tài khoản không tồn tại!!!";
+                    TempData["ErrorMessage"] = "Tài khoản không tồn tại hoặc đang bị khóa!!!";
                 }
-
             }
             catch
             {

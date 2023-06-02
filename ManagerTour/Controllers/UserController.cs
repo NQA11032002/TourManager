@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace ManagerTour.Controllers
 {
@@ -315,6 +317,118 @@ namespace ManagerTour.Controllers
             Index();
 
             return View("Index", ListUser);
+        }
+
+        //get view change password
+        public ActionResult ChangePassword()
+        {
+            if (Session["user"] != null)
+            {
+                return View();
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+        //perform change password
+        public ActionResult isChangePassword(string email, string oldPassword, string newPassword, string confirmPassword)
+        {
+            if (Session["user"] != null)
+            {
+                try
+                {
+                    bool checkEmail = checkEMail(email);
+
+                    if (checkEmail && email.Length > 0)
+                    {
+                        var query = "SELECT * FROM users WHERE email = '" + email + "' and role_id = 1 and status = 1";
+
+                        ConnectionMySQL connect = new ConnectionMySQL();
+                        DataTable dt = new DataTable();
+                        dt = connect.SelectData(query).Tables[0];
+
+                        if (dt.Rows.Count > 0)
+                        {
+                            string passwordHash = dt.Rows[0]["password"].ToString();
+                            bool passwordMatches = BCryptNet.Verify(oldPassword, passwordHash);
+
+                            if (passwordMatches)
+                            {
+                                if (newPassword.Length >= 6 && Regex.IsMatch(newPassword, @"^(?=.*[a-z])(?=.*[A-Z]).*$"))
+                                {
+                                    if (String.Compare(newPassword, confirmPassword) == 0)
+                                    {
+                                        // Generate a salt
+                                        string salt = BCryptNet.GenerateSalt();
+                                        string hashedPassword = BCryptNet.HashPassword(newPassword, salt);
+
+                                        string queryChangePassword = "UPDATE `users` SET `password`='" + hashedPassword + "' WHERE email = '" + email + "'";
+                                        connect.ExecuteNonQuery(queryChangePassword);
+
+                                        TempData["successResetPassword"] = "Đổi mật khẩu thành công";
+
+                                        //reset cookie 
+                                        Response.Cookies["email"].Expires = DateTime.Now.AddDays(-1);
+                                        Response.Cookies["pasasword"].Expires = DateTime.Now.AddDays(-1);
+
+                                        return RedirectToAction("changePassword", "User");
+                                    }
+                                    else
+                                    {
+                                        TempData["errorResetPassword"] = "Mật khẩu xác nhận không khớp";
+                                    }
+                                }
+                                else
+                                {
+                                    TempData["errorResetPassword"] = "Mật khẩu mới phải từ 6 ký tự và có ít nhất 1 ký tự hoa và thường.";
+                                }
+                            }
+                            else
+                            {
+                                TempData["errorResetPassword"] = "Mật khẩu hiện tại không đúng.";
+                            }
+                        }
+                        else
+                        {
+                            TempData["errorResetPassword"] = "Đổi mật khẩu thất bại";
+                        }
+                    }
+                    else
+                    {
+                        TempData["errorResetPassword"] = "Email tài khoản của bạn không tồn tại";
+                    }
+
+                    return RedirectToAction("ChangePassword");
+                }
+                catch
+                {
+                    return RedirectToAction("ChangePassword");
+                }
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+
+        //check email exists in database
+        public bool checkEMail(string email)
+        {
+            try
+            {
+                string query = "SELECT count(*) FROM users WHERE email like '" + email + "'";
+                ConnectionMySQL connect = new ConnectionMySQL();
+                var dt = connect.ExecuteScalar(query);
+
+                if (Int32.Parse(dt.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+
+            }
+            return false;
         }
     }
 }

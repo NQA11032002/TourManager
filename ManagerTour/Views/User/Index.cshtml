@@ -56,8 +56,8 @@
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Email</th>
-                <th scope="col" width="100px">Name</th>
+                <th scope="col" width="120px">Email</th>
+                <th scope="col" width="150px">Name</th>
                 <th scope="col">BirthDay</th>
                 <th scope="col">Gender</th>
                 <th scope="col">Address</th>
@@ -73,7 +73,7 @@
 
             @foreach (var row in Model)
             {
-                <tr>
+                <tr class="@(row.Id == (Session["user"] as ManagerTour.Models.User_information).Id ? "table-active" : "")">
                     <td scope="row">@row.Id</td>
                     <td>@row.User.Email</td>
                     <td>@row.Name</td>
@@ -148,13 +148,14 @@
                                 </div>
                             </div>
 
+                            @if (row.Id != (Session["user"] as ManagerTour.Models.User_information).Id)
+                            {
+                                <label for="cb_removePost_@row.Id" class="remove">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </label>
+                            }
 
-                            <label for="cb_removePost_@row.Id" class="remove">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </label>
-
-
-                            @if (row.User.Status == 1)
+                            @if (row.User.Status == 1 && row.Id != (Session["user"] as ManagerTour.Models.User_information).Id)
                             {
                                 <input type="checkbox" class="cb_lockUser" hidden id="cb_lockUser_@row.Id" />
                                 <label for="cb_lockUser_@row.Id" class="lb_lockUser position-fixed"></label>
@@ -178,7 +179,7 @@
                                     <i class="fa-solid fa-lock"></i>
                                 </label>
                             }
-                            else if (row.User.Status == 0)
+                            else if (row.User.Status == 0 && row.Id != (Session["user"] as ManagerTour.Models.User_information).Id)
                             {
                                 <input type="checkbox" class="cb_lockUser" hidden id="cb_lockUser_@row.Id" />
                                 <label for="cb_lockUser_@row.Id" class="lb_lockUser position-fixed"></label>

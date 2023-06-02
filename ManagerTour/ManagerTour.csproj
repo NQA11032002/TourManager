@@ -349,6 +349,7 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\Forgot.cshtml" />
     <Content Include="Views\Auth\ResetPassword.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

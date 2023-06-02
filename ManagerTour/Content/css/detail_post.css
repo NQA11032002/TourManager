@@ -49,3 +49,15 @@
 .form_detail .form-control {
     font-size: 14px;
 }
+
+.error_changepass {
+    color: #CD1818;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.success_changepass {
+    color: #03C988;
+}
