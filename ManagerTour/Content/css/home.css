@@ -198,3 +198,14 @@
 	height: 350px !important;
 	width: 350px;
 }
+
+.card-tour
+{
+	justify-content:left !important;
+}
+
+.card__user--item {
+	display: grid !important;
+	grid-template-columns: 35px 1fr 1fr 1fr;
+	column-gap: 10px;
+}

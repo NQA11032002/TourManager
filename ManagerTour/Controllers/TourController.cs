@@ -17,8 +17,11 @@ namespace ManagerTour.Controllers
         private List<Vehicles> _listVehicle;
         public List<Vehicles> ListVehicle { get => _listVehicle; set => _listVehicle = value; }
 
+        private List<tour_picture> _listPicture;
+        public List<tour_picture> ListPicture { get => _listPicture; set => _listPicture = value; }
+
         //Pagination for table tour
-        private int pageSize = 10;
+        private int pageSize = 8;
         private int currentPage = 1;
         private float totalPage = 0;
 
@@ -26,9 +29,11 @@ namespace ManagerTour.Controllers
         {
             ListTour = new List<Tours>();
             ListVehicle = new List<Vehicles>();
+            ListPicture = new List<tour_picture>();
 
             getVehicles();
             totalTour();
+            ViewBag.ListTour = getTourPicture();
         }
 
         // GET: Tour
@@ -40,7 +45,8 @@ namespace ManagerTour.Controllers
                 {
 
                     string query = "SELECT t.id, t.user_id, t.vehicle_id, t.title, t.description, t.address_start, t.address_end, t.date_start, t.date_end, " +
-                                "t.price_tour, t.detail_price_tour, t.amount_customer_maximum, t.amount_customer_present, t.status, t.created_at, u.name as userName, v.name as vehicleName, t.created_at, t.updated_at" +
+                                "t.price_tour, t.detail_price_tour, t.amount_customer_maximum, t.amount_customer_present, t.status, t.created_at, u.name as userName," +
+                                " v.name as vehicleName, t.created_at, t.updated_at" +
                                 " FROM tours as t join user_information as u on t.user_id = u.id join vehicles as v on t.vehicle_id = v.id";
 
                     if (!string.IsNullOrEmpty(filter_status) && !string.IsNullOrWhiteSpace(filter_status))
@@ -121,6 +127,38 @@ namespace ManagerTour.Controllers
             }
 
             return RedirectToAction("Login", "Auth");
+        }
+
+        //get picture of the tour
+        public List<tour_picture> getTourPicture()
+        {
+            try
+            {
+                string query = "SELECT * FROM `tour_picture` WHERE 1";
+                ConnectionMySQL connect = new ConnectionMySQL();
+                DataTable dt = new DataTable();
+                dt = connect.SelectData(query).Tables[0];
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        tour_picture picture = new tour_picture()
+                        {
+                            Id = Int32.Parse(row["id"].ToString()),
+                            Tour_id = Int32.Parse(row["tour_id"].ToString()),
+                            Images = row["images"].ToString(),
+                            Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"].ToString()),
+                            Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"].ToString()),
+                        };
+
+                        ListPicture.Add(picture);
+                    }
+                }
+            }
+            catch { }
+
+            return ListPicture;
         }
 
         //get view detail of the tour

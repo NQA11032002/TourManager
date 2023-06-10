@@ -254,6 +254,8 @@
     <Content Include="Content\css\type_travel.css" />
     <Content Include="Content\css\user.css" />
     <Content Include="Content\css\vehicle_travel.css" />
+    <Content Include="Content\images\avatar\default.png" />
+    <Content Include="Content\images\default.png" />
     <Content Include="Content\js\home.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -280,6 +282,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\TypeTravelController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -291,9 +294,11 @@
     <Compile Include="Models\ConnectionMySQL.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\Posts.cs" />
+    <Compile Include="Models\Post_comments.cs" />
     <Compile Include="Models\Province_city.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\Tours.cs" />
+    <Compile Include="Models\tour_picture.cs" />
     <Compile Include="Models\Town.cs" />
     <Compile Include="Models\Type_travel.cs" />
     <Compile Include="Models\Users.cs" />
@@ -350,6 +355,9 @@
     <Content Include="Views\Auth\Forgot.cshtml" />
     <Content Include="Views\Auth\ResetPassword.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Roles\Insert.cshtml" />
+    <Content Include="Views\Roles\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -359,7 +367,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
+    <Folder Include="Content\images\Tours\" />
+    <Folder Include="Views\CommentsPost\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

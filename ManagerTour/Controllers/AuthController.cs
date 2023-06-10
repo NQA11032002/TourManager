@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -26,7 +27,7 @@ namespace ManagerTour.Controllers
             //if exists cookie save email and password is perform login
             if (email != null && password != null)
             {
-                if (!String.IsNullOrEmpty(email.ToString()) && !String.IsNullOrEmpty(password.ToString()))
+                if (!String.IsNullOrEmpty(email.Value) && !String.IsNullOrEmpty(password.Value))
                 {
                     return isLogin(email.Value.ToString(), password.Value.ToString());
                 }
@@ -85,10 +86,11 @@ namespace ManagerTour.Controllers
                             //remember information login
                             if (cb_login == "true")
                             {
-                                HttpCookie emailCookie = new HttpCookie("email");
-                                emailCookie.Value = email;
-                                HttpCookie passwordCookie = new HttpCookie("password");
-                                passwordCookie.Value = password;
+                                HttpCookie emailCookie = new HttpCookie("email", email);
+                                emailCookie.Expires = DateTime.Now.AddDays(7);
+
+                                HttpCookie passwordCookie = new HttpCookie("password", password);
+                                passwordCookie.Expires = DateTime.Now.AddDays(7);
 
                                 Response.Cookies.Add(emailCookie);
                                 Response.Cookies.Add(passwordCookie);
@@ -115,6 +117,7 @@ namespace ManagerTour.Controllers
 
             return RedirectToAction("Login");
         }
+
 
         public ActionResult Forgot()
         {

@@ -1,0 +1,125 @@
+﻿@model List<ManagerTour.Models.Roles>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Home.cshtml";
+}
+
+
+<link href="~/Content/css/post.css" rel="stylesheet" />
+<link href="~/Content/css/address_travel.css" rel="stylesheet" />
+<link href="~/Content/css/type_travel.css" rel="stylesheet" />
+
+<div class="breadcrumb d-flex justify-content-between align-items-center m-4">
+    <div class="breadcrumb-item d-flex align-items-center">
+        <h1>Dashboard</h1>
+
+        <div class="text-break breadcrumb-item-text">
+            <a>Roles Users</a>
+            <span> / </span>
+            <span>Analytic</span>
+        </div>
+    </div>
+
+    <div class="breadcrumb-date">
+        <p>August 1, 2020 - August 31, 2020</p>
+    </div>
+</div>
+
+<div class="posts address_travel types">
+    @using (@Html.BeginForm("Index", "Roles", FormMethod.Get))
+    {
+        <div class="p-3 d-flex align-items-center justify-content-between">
+            <div class="posts_search d-flex justify-content-center position-relative type_search">
+                <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the type travel..." />
+                <button id="btn_search" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <div class="insert_address">
+                <a class="btn btn-dark fw-bold" href="/Roles/Insert">Insert</a>
+            </div>
+        </div>
+    }
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Role</th>
+                <th scope="col">Created</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Feature</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td scope="row">@row.Id</td>
+                    <td><p class="title">@row.Role</p></td>
+                    <td>@row.Created_at</td>
+                    <td>@row.Updated_at</td>
+                    <td>
+                        <div class="user_function d-flex align-items-center">
+                            <a class="detail" href="~/Roles/Detail?id=@row.Id">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+
+                            <input type="checkbox" class="cb_removePost" hidden id="cb_removePost_@row.Id" />
+                            <label for="cb_removePost_@row.Id" class="lb_removePost position-fixed"></label>
+
+                            <div class="card notify-remove-post position-fixed">
+                                <div class="card-body">
+                                    <h5 class="fw-bold">Are you want remove this role user ?</h5>
+                                    <p>Choose <b>Remove</b>, The role user will  <b>remove forever</b></p>
+
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <label for="cb_removePost_@row.Id" class="btn btn-notify-post cancel-remove-post d-flex align-items-center justify-content-center">Cancel</label>
+
+                                        <a href="~/Roles/Delete?id=@row.Id" class="remove btn-notify-post btn btn-danger">
+                                            Remove
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label for="cb_removePost_@row.Id" class="remove">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination d-flex justify-content-between p-2">
+        <p class="pagination-page">
+            Showing @if (Model.Count > 0)
+            {@Model[0].CurrentPage}  to
+            @if (Model.Count > 0)
+            {@Model[0].TotalPage} of
+            @if (Model.Count > 0)
+            {@Model[0].TotalPage} entries
+        </p>
+
+        <div class="pagination-item d-flex">
+            @using (Html.BeginForm("PreviousPage", "Roles", FormMethod.Get))
+            {
+                <button class="pagination-left pagination-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            }
+
+
+            @using (Html.BeginForm("NextPage", "Roles", FormMethod.Get))
+            {
+                <button class="pagination-right pagination-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            }
+        </div>
+    </div>
+</div>

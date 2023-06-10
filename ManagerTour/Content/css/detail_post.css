@@ -61,3 +61,56 @@
 .success_changepass {
     color: #03C988;
 }
+
+.avatar-contain
+{
+    margin-bottom: 10px;
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    cursor: grab;
+}
+
+.current_image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit:cover;
+}
+
+.choose_file {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 120px;
+    bottom: 15px;
+    background-color: #E4E6EB;
+    z-index: 9999;
+    cursor: grab;
+}
+
+.change_image
+{
+    background-color: #E4E6EB;
+    color: #2a2a2a;
+    border: unset;
+    margin-left: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    height: 40px;
+}
+.change_image:hover
+{
+    background-color: #E4E6EB;
+    color: #2a2a2a;
+}

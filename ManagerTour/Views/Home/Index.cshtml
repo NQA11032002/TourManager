@@ -105,7 +105,7 @@
                     <div class="card__event--items card-items">
                         @foreach (var row in ViewBag.listTours)
                         {
-                            <a class="card-item d-flex" href="/Tour/Detail?id=@row.Id">
+                            <a class="card-item d-flex card-tour" href="/Tour/Detail?id=@row.Id">
                                 <i class="fa-solid fa-circle"></i>
                                 <div class="card_social_info">
                                     <h5>@row.Created_at</h5>

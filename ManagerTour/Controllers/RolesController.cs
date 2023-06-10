@@ -8,35 +8,35 @@ using System.Web.Mvc;
 
 namespace ManagerTour.Controllers
 {
-    public class TypeTravelController : Controller
+    public class RolesController : Controller
     {
-        private List<Type_travel> _listType;
-        public List<Type_travel> ListType { get => _listType; set => _listType = value; }
+        private List<Roles> _listRoles;
+        public List<Roles> ListRoles { get => _listRoles; set => _listRoles = value; }
 
-        //Pagination for table type
+        //Pagination for table roles
         private int pageSize = 15;
         private int currentPage = 1;
         private float totalPage = 0;
 
-        public TypeTravelController()
+        public RolesController()
         {
-            ListType = new List<Type_travel>();
-            totalType();
+            ListRoles = new List<Roles>();
+            totalRoles();
         }
 
-        // GET: TypeTravel
+        // GET: Roles
         public ActionResult Index(string keyword = null)
         {
             if (Session["user"] != null)
             {
                 try
                 {
-                    string query = "SELECT * FROM `type_travel`";
+                    string query = "SELECT * FROM `roles`";
 
                     //if search keyword != null and != empty is perform
                     if (!string.IsNullOrEmpty(keyword) && !string.IsNullOrWhiteSpace(keyword))
                     {
-                        query += " WHERE name like '%" + keyword + "%'";
+                        query += " WHERE role like '%" + keyword + "%'";
                     }
 
                     int totalRecords = (currentPage - 1) * pageSize;
@@ -51,27 +51,85 @@ namespace ManagerTour.Controllers
                     {
                         foreach (DataRow row in dt.Rows)
                         {
-                            Type_travel type = new Type_travel
+                            Roles role = new Roles
                             {
                                 Id = Int32.Parse(row["id"].ToString()),
-                                Name = row["name"].ToString(),
+                                Role = row["role"].ToString(),
                                 Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
                                 Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
                                 TotalPage = totalPage,
                                 CurrentPage = currentPage,
                             };
 
-                            ListType.Add(type);
+                            ListRoles.Add(role);
                         }
                     }
 
                     ViewBag.keyword = keyword;
 
-                    return View("Index", ListType);
+                    return View("Index", ListRoles);
                 }
                 finally
                 {
 
+                }
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+
+        //get total roles
+        public void totalRoles()
+        {
+            string query = "SELECT * FROM roles";
+
+            ConnectionMySQL connect = new ConnectionMySQL();
+            DataTable dt = new DataTable();
+            dt = connect.SelectData(query).Tables[0];
+
+            if (dt.Rows.Count > 0)
+            {
+                //làm tròn lên số nguyên gần nhất một giá trị số thập phân.
+                totalPage = (int)Math.Ceiling((double)dt.Rows.Count / pageSize);
+
+                if (totalPage <= 0)
+                {
+                    totalPage = 1;
+                }
+            }
+        }
+
+
+        //get view Insert roles
+        public ActionResult Insert()
+        {
+            if (Session["user"] != null)
+            {
+                return View(new Roles());
+            }
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+        //perform insert roles
+        public ActionResult rolesInsert(Roles roles)
+        {
+            if (Session["user"] != null)
+            {
+                try
+                {
+                    string query = "INSERT INTO `roles`(`role`) VALUES ('" + roles.Role + "')";
+
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    connect.ExecuteNonQuery(query);
+
+                    return RedirectToAction("Index");
+
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Index");
                 }
             }
 
@@ -83,7 +141,7 @@ namespace ManagerTour.Controllers
         {
             if (Session["user"] != null)
             {
-                string query = "SELECT * FROM type_travel WHERE id = " + id;
+                string query = "SELECT * FROM roles WHERE id = " + id;
                 ConnectionMySQL connect = new ConnectionMySQL();
                 DataTable dt = new DataTable();
                 dt = connect.SelectData(query).Tables[0];
@@ -92,26 +150,28 @@ namespace ManagerTour.Controllers
                 {
                     foreach (DataRow row in dt.Rows)
                     {
-                        Type_travel type = new Type_travel
+                        Roles role = new Roles
                         {
                             Id = Int32.Parse(row["id"].ToString()),
-                            Name = row["name"].ToString(),
+                            Role = row["role"].ToString(),
                             Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
                             Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
+                            TotalPage = totalPage,
+                            CurrentPage = currentPage,
                         };
 
-                        ListType.Add(type);
+                        ListRoles.Add(role);
                     }
                 }
 
-                return View(ListType);
+                return View(ListRoles);
             }
 
             return RedirectToAction("Login", "Auth");
         }
 
         //update information of the type travel 
-        public ActionResult Update(int id, List<Type_travel> listTypeTravel)
+        public ActionResult Update(int id, List<Roles> listRole)
         {
             if (Session["user"] != null)
             {
@@ -119,7 +179,7 @@ namespace ManagerTour.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        string query = "UPDATE `type_travel` SET `name`='" + listTypeTravel[0].Name + "' , `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "' WHERE id = " + id;
+                        string query = "UPDATE `roles` SET `role`='" + listRole[0].Role + "' , `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "' WHERE id = " + id;
 
                         ConnectionMySQL connect = new ConnectionMySQL();
                         connect.ExecuteNonQuery(query);
@@ -140,72 +200,14 @@ namespace ManagerTour.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
-
-        //get view Insert address travel
-        public ActionResult Insert()
-        {
-            if (Session["user"] != null)
-            {
-                return View(new Type_travel());
-            }
-
-            return RedirectToAction("Login", "Auth");
-        }
-
-        //perform insert address travel
-        public ActionResult postInsert(Type_travel type)
-        {
-            if (Session["user"] != null)
-            {
-                try
-                {
-                    string query = "INSERT INTO `type_travel`(`name`) VALUES ('" + type.Name + "')";
-
-                    ConnectionMySQL connect = new ConnectionMySQL();
-                    connect.ExecuteNonQuery(query);
-
-                    return RedirectToAction("Index");
-
-                }
-                catch (Exception e)
-                {
-                    return RedirectToAction("Index");
-                }
-            }
-
-            return RedirectToAction("Login", "Auth");
-        }
-
-
-        //get total type travel
-        public void totalType()
-        {
-            string query = "SELECT * FROM type_travel";
-
-            ConnectionMySQL connect = new ConnectionMySQL();
-            DataTable dt = new DataTable();
-            dt = connect.SelectData(query).Tables[0];
-
-            if (dt.Rows.Count > 0)
-            {
-                //làm tròn lên số nguyên gần nhất một giá trị số thập phân.
-                totalPage = (int)Math.Ceiling((double)dt.Rows.Count / pageSize);
-
-                if (totalPage <= 0)
-                {
-                    totalPage = 1;
-                }
-            }
-        }
-
-        //delete type travel by ID
+        //delete role by ID
         public ActionResult Delete(int id)
         {
             if (Session["user"] != null)
             {
                 try
                 {
-                    string query = "DELETE FROM `type_travel` WHERE id = " + id;
+                    string query = "DELETE FROM `roles` WHERE id = " + id;
                     ConnectionMySQL connect = new ConnectionMySQL();
                     connect.ExecuteNonQuery(query);
 
@@ -244,7 +246,7 @@ namespace ManagerTour.Controllers
 
             Index();
 
-            return View("Index", ListType);
+            return View("Index", ListRoles);
         }
 
         //pagination previous page
@@ -265,7 +267,7 @@ namespace ManagerTour.Controllers
 
             Index();
 
-            return View("Index", ListType);
+            return View("Index", ListRoles);
         }
     }
 }

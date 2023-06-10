@@ -22,7 +22,7 @@ namespace ManagerTour.Controllers
         public List<Address_travel> ListAddressTravel { get => _listAddressTravel; set => _listAddressTravel = value; }
 
         //Pagination for table post
-        private int pageSize = 10;
+        private int pageSize = 8;
         private int currentPage = 1;
         private float totalPage = 0;
 
@@ -316,5 +316,7 @@ namespace ManagerTour.Controllers
 
             return View("Index", ListPosts);
         }
+
+   
     }
 }

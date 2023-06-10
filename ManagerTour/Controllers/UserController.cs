@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -15,6 +16,7 @@ namespace ManagerTour.Controllers
         private List<User_information> _listUser;
         public List<User_information> ListUser { get => _listUser; set => _listUser = value; }
 
+
         //Pagination for table user
         private int pageSize = 16;
         private int currentPage = 1;
@@ -23,7 +25,6 @@ namespace ManagerTour.Controllers
         public UserController()
         {
             ListUser = new List<User_information>();
-
             totalUsers();
         }
 
@@ -113,7 +114,8 @@ namespace ManagerTour.Controllers
         {
             if (Session["user"] != null)
             {
-                string query = "SELECT * FROM user_information WHERE id = " + id;
+                string query = "SELECT i.id, i.user_id, i.name, i.birth_date, i.gender, i.address, i.phone, i.education, i.image, i.is_login, u.role_id, i.created_at, i.updated_at " +
+                                "FROM user_information as i join users as u on i.user_id = u.id WHERE i.id = " + id;
                 ConnectionMySQL connect = new ConnectionMySQL();
                 DataTable dt = new DataTable();
                 dt = connect.SelectData(query).Tables[0];
@@ -134,6 +136,7 @@ namespace ManagerTour.Controllers
                             Education = row["education"].ToString(),
                             Image = row["image"].ToString(),
                             Is_login = Int32.Parse(row["is_login"].ToString()),
+                            User = new Users() { Role_id = Int32.Parse(row["role_id"].ToString()) },
                             Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
                             Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
                         };
@@ -173,7 +176,7 @@ namespace ManagerTour.Controllers
 
 
         //update information of the user 
-        public ActionResult Update(int id, string birthDay, int gender, List<User_information> user)
+        public ActionResult Update(int id, string birthDay, int gender, int role, List<User_information> user)
         {
             if (Session["user"] != null)
             {
@@ -185,6 +188,12 @@ namespace ManagerTour.Controllers
                             "`phone`='" + user[0].Phone + "',`education`='" + user[0].Education + "', `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd H:m:s") + "' WHERE id = " + id;
                         ConnectionMySQL connect = new ConnectionMySQL();
                         connect.ExecuteNonQuery(query);
+
+                        //update infor user is Login
+                        if(role == 1)
+                        {
+                            (Session["user"] as ManagerTour.Models.User_information).Name = user[0].Name;
+                        }
 
                         return RedirectToAction("Index");
                     }
@@ -202,6 +211,43 @@ namespace ManagerTour.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+        //Upload file image
+        public ActionResult UploadFile(HttpPostedFileBase file, int id)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                string fileName = Path.GetFileName(file.FileName);
+                string[] arrFileName = fileName.Split('.');
+                fileName = arrFileName[0] + "_" + new DateTime().ToString("dd") + "_" + new DateTime().ToString("MM") + "_" + new DateTime().ToString("yyyy") + "_" + GenerateRandomString(6) + "." + arrFileName[1];
+                string filePath = Path.Combine(Server.MapPath("~/Content/images/avatar"), fileName);
+                file.SaveAs(filePath);
+
+                try
+                {
+                    string query = "UPDATE user_information SET image = '"+fileName+"' WHERE id = " + id;
+                    ConnectionMySQL connect = new ConnectionMySQL();
+                    connect.ExecuteNonQuery(query);
+
+                    //update session 
+                    (Session["user"] as ManagerTour.Models.User_information).Image = fileName;
+                }
+                catch (Exception e)
+                {
+                    return RedirectToAction("Detail", "User");
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        //generate random  
+        public string GenerateRandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            var randomString = new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            return randomString;
+        }
 
         //delete user by ID
         public ActionResult Delete(int id)

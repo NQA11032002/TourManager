@@ -21,66 +21,78 @@
             <ul class="">
                 <li class="nav-item nav-info">
                     <div class="nav-item--info d-flex m-3">
-                        <img class="avatar" src="https://colorlib.com/polygon/gentelella/images/img.jpg" />
+                        <img class="avatar" src="~/Content/images/avatar/@((Session["user"] as ManagerTour.Models.User_information).Image)" />
                         <div class="infor_login">
                             <h3 class="h6">Welcome</h3>
                             <p class="name">@((Session["user"] as ManagerTour.Models.User_information).Name)</p>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <div class="sidebar_item d-flex align-items-center m-3">
+                <li class="nav-item  m-3">
+                    <div class="sidebar_item d-flex align-items-center">
                         <i class="fa-solid fa-house flex-shrink-0"></i>
                         <a class="nav-link" href="/Home/Index">Home</a>
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <div class="sidebar_item d-flex align-items-center m-3">
+                <li class="nav-item  m-3">
+                    <div class="sidebar_item d-flex align-items-center">
                         <i class="fa-regular fa-newspaper flex-shrink-0"></i>
                         <a class="nav-link" href="/Post/Index">Posts</a>
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <div class="sidebar_item d-flex align-items-center m-3">
+                <li class="nav-item  m-3">
+                    <input type="checkbox" hidden id="cb_users" />
+
+                    <label for="cb_users" class="sidebar_item d-flex align-items-center siderbar_item-users">
                         <i class="fa-solid fa-users flex-shrink-0"></i>
-                        <a class="nav-link" href="/User/Index">Users</a>
-                    </div>
+                        <a class="nav-link flex-shrink-0" href="/User/Index">Users</a>
+                        <i class="fa-solid fa-angle-down"></i>
+                    </label>
+
+                    <ul class="forms_users">
+                        <li class="nav-item nav-sub-item">
+                            <div class="sidebar_item d-flex align-items-center">
+                                <span class="flex-shrink-0 sidebar_item-left"></span>
+                                <a class="nav-link" href="/Roles/Index">Roles</a>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
 
-                <li class="nav-item">
-                    <div class="sidebar_item d-flex align-items-center m-3">
+                <li class="nav-item m-3">
+                    <div class="sidebar_item d-flex align-items-center">
                         <i class="fa-solid fa-earth-americas  flex-shrink-0"></i>
                         <a class="nav-link" href="/Tour/Index">Tours</a>
                     </div>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item  m-3">
                     <input type="checkbox" hidden id="cb_forms"/>
 
-                    <label for="cb_forms" class="sidebar_item-drop_travel sidebar_item d-flex align-items-center m-3">
+                    <label for="cb_forms" class="sidebar_item-drop_travel sidebar_item d-flex align-items-center">
                         <i class="fa-solid fa-pen-to-square flex-shrink-0"></i>
                         <a class="nav-link flex-shrink-0">Travels</a>
                         <i class="fa-solid fa-angle-down"></i>
                     </label>
 
                     <ul class="forms_subsidebar">
-                        <li class="nav-item">
+                        <li class="nav-item nav-sub-item">
                             <div class="sidebar_item d-flex align-items-center m-3">
                                 <span class="flex-shrink-0 sidebar_item-left"></span>
                                 <a class="nav-link" href="/AddressTravel/Index">Address Travel</a>
                             </div>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item nav-sub-item">
                             <div class="sidebar_item d-flex align-items-center m-3">
                                 <span class="flex-shrink-0 sidebar_item-left"></span>
                                 <a class="nav-link" href="/TypeTravel/Index">Type Travel</a>
                             </div>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item nav-sub-item">
                             <div class="sidebar_item d-flex align-items-center m-3">
                                 <span class="flex-shrink-0 sidebar_item-left"></span>
                                 <a class="nav-link" href="/Vehicle/Index">Vehicle Travel</a>
@@ -104,11 +116,11 @@
                         <input type="checkbox" hidden id="cbdropheader" />
 
                         <label for="cbdropheader" class="header-info_name d-flex align-items-center">
-                            <img src="https://colorlib.com/polygon/gentelella/images/img.jpg" />
+                            <img src="~/Content/images/avatar/@((Session["user"] as ManagerTour.Models.User_information).Image)" />
                             <p>@((Session["user"] as ManagerTour.Models.User_information).Name)</p>
                             <i class="fa-solid fa-angle-down"></i>
                         </label>
-
+                            
                         <div class="card header_personally position-absolute">
                             <ul class="navbar d-flex flex-column">
                                 <li class="nav-item d-flex align-items-center">

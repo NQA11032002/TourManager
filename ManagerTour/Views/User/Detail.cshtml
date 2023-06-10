@@ -8,55 +8,92 @@
 <link href="~/Content/css/detail_post.css" rel="stylesheet" />
 <link href="~/Content/css/tour.css" rel="stylesheet" />
 
-@using (Html.BeginForm("Update", "User", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
 
 <div class="post_detail form_detail card border-0 tour_detail">
     <h1 class="text-center fw-bold h3 mb-3 pb-3">Detail User Information</h1>
 
-    <input type="text" name="id" value="@Model[0].Id" hidden />
+    @if (Model[0].User.Role_id != 2)
+    {
+        using (Html.BeginForm("UploadFile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="d-flex align-items-center avatar-contain">
+                <label for="file" class="avatar position-relative border">
+                    <img class="current_image" src="~/Content/images/avatar/@Model[0].Image" />
+                    <input type="text" name="id" value="@Model[0].Id" hidden />
+                    <input id="file" type="file" name="file" hidden onchange="chooseFile(this, 'current_image')" />
 
-    <div class="mb-3">
-        <label class="form-label">Name</label>
-        @Html.TextBoxFor(m => Model[0].Name, new { @class = "form-control title_input shadow-non" })
-        @Html.ValidationMessageFor(m => Model[0].Name)
-    </div>
+                    <label for="file" class="border position-absolute choose_file">
+                        <i class="fa-solid fa-camera"></i>
+                    </label>
+                </label>
 
-    <div class="mb-3">
-        <label class="form-label">BirthDay</label>
-        <input type="date" class="form-control" name="birthDay" value="@Model[0].Birth_date" />
-    </div>
+                <input type="submit" value="Change Image" class="btn btn-dark change_image" />
+            </div>
 
-    <div class="mb-3">
-        <label class="form-label">Phone</label>
-        @Html.TextBoxFor(m => Model[0].Phone, new { @class = "form-control title_input shadow-non" })
-        @Html.ValidationMessageFor(m => Model[0].Phone)
-    </div>
+        }
+    }
 
-    <div class="mb-3">
-        <label class="form-label">Gender</label>
-        <select class="form-select shadow-none" name="gender">
-            <option @(Model[0].Gender == 1 ? "selected" : "") value="1">Nam</option>
-            <option @(Model[0].Gender == 0 ? "selected" : "") value="0">Nữ</option>
-        </select>
-    </div>
 
-    <div class="w-100 date_tour mb-3">
-        <label class="form-label">Address</label>
-        @Html.TextBoxFor(m => Model[0].Address, new { @class = "form-control content_input shadow-none" })
-        @Html.ValidationMessageFor(m => Model[0].Address)
-    </div>
+    @using (Html.BeginForm("Update", "User", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="w-100 mb-3">
-        <label class="form-label">Education</label>
-        @Html.TextBoxFor(m => Model[0].Education, new { @class = "form-control content_input shadow-none" })
-        @Html.ValidationMessageFor(m => Model[0].Education)
-    </div>
+        <input type="text" name="id" value="@Model[0].Id" hidden />
+        <input type="text" name="role" value="@Model[0].User.Role_id" hidden />
 
-    <div class="d-flex justify-content-end">
-        <a href="~/User/Index" class="cancel_update btn">Cancel</a>
-        <button type="submit" class="update_detail btn btn-dark">Update</button>
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            @Html.TextBoxFor(m => Model[0].Name, new { @class = "form-control title_input shadow-non" })
+            @Html.ValidationMessageFor(m => Model[0].Name)
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">BirthDay</label>
+            <input type="date" class="form-control" name="birthDay" value="@Model[0].Birth_date" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            @Html.TextBoxFor(m => Model[0].Phone, new { @class = "form-control title_input shadow-non" })
+            @Html.ValidationMessageFor(m => Model[0].Phone)
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Gender</label>
+            <select class="form-select shadow-none" name="gender">
+                <option @(Model[0].Gender == 1 ? "selected" : "") value="1">Nam</option>
+                <option @(Model[0].Gender == 0 ? "selected" : "") value="0">Nữ</option>
+            </select>
+        </div>
+
+        <div class="w-100 date_tour mb-3">
+            <label class="form-label">Address</label>
+            @Html.TextBoxFor(m => Model[0].Address, new { @class = "form-control content_input shadow-none" })
+            @Html.ValidationMessageFor(m => Model[0].Address)
+        </div>
+
+        <div class="w-100 mb-3">
+            <label class="form-label">Education</label>
+            @Html.TextBoxFor(m => Model[0].Education, new { @class = "form-control content_input shadow-none" })
+            @Html.ValidationMessageFor(m => Model[0].Education)
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <a href="~/User/Index" class="cancel_update btn">Cancel</a>
+            <button type="submit" class="update_detail btn btn-dark">Update</button>
+        </div>
+    }
 </div>
-}
+<script>
+    function chooseFile(fileInput, classImage) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("." + classImage).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+</script>

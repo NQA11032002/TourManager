@@ -32,6 +32,7 @@ namespace ManagerTour.Models
         private User_information _user;
         private Vehicles _vehicles;
         private List<Vehicles> _listVehicle;
+        private tour_picture _picture;
 
         public int Id { get => _id; set => _id = value; }
         public int User_id { get => _user_id; set => _user_id = value; }
@@ -69,5 +70,6 @@ namespace ManagerTour.Models
         public int Minute { get => _minute; set => _minute = value; }
         public int Month { get => _month; set => _month = value; }
         public int Count { get => _count; set => _count = value; }
+        public tour_picture Picture { get => _picture; set => _picture = value; }
     }
 }
