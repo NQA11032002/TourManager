@@ -114,3 +114,21 @@
     background-color: #E4E6EB;
     color: #2a2a2a;
 }
+.gender_user
+{
+    margin-right: 10px;
+    cursor: pointer;
+}
+.gender_user > input {
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.error {
+    color: #CD1818;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: unset;
+    margin-top: 5px;
+}

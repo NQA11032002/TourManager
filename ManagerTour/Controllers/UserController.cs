@@ -16,6 +16,8 @@ namespace ManagerTour.Controllers
         private List<User_information> _listUser;
         public List<User_information> ListUser { get => _listUser; set => _listUser = value; }
 
+        private List<Roles> _listRole;
+        public List<Roles> ListRole { get => _listRole; set => _listRole = value; }
 
         //Pagination for table user
         private int pageSize = 16;
@@ -25,7 +27,9 @@ namespace ManagerTour.Controllers
         public UserController()
         {
             ListUser = new List<User_information>();
+            ListRole = new List<Roles>();
             totalUsers();
+            ViewBag.ListRole = getListRole();
         }
 
         // GET: User
@@ -271,6 +275,93 @@ namespace ManagerTour.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+        //get view insert user
+        public ActionResult Insert()
+        {
+            return View();
+        }
+
+        //perform insert user
+        public ActionResult InsertUser(string email, string password, int role, string name, DateTime birthDay, int gender)
+        {
+            try
+            {
+
+                bool checkEmail = checkEMail(email);
+                if (checkEmail == false)
+                {
+                    if (password.Length >= 6 && Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z]).*$"))
+                    {
+                        if (name.Length > 0)
+                        {
+                            if (birthDay != null)
+                            {
+                                string salt = BCryptNet.GenerateSalt();
+                                string hashedPassword = BCryptNet.HashPassword(password, salt);
+
+                                //insert new user
+                                string queryInsertUser = "INSERT INTO `users`(`role_id`, `email`, `password`, `status`) " +
+                                                        "VALUES ('" + role + "','" + email + "','" + hashedPassword + "','1')";
+
+                                ConnectionMySQL connect = new ConnectionMySQL();
+                                connect.ExecuteNonQuery(queryInsertUser);
+
+                                //get id new user
+                                int ID = IDEmail(email);
+
+                                //insert information of new user
+                                if (ID != 0)
+                                {
+                                    string queryInsertInformation = "INSERT INTO `user_information`(`user_id`, `name`, `birth_date`, `gender`) " +
+                                            "VALUES ('" + ID + "','" + name + "','" + birthDay.ToString("yyyy-MM-dd") + "','" + gender + "')";
+
+                                    connect.ExecuteNonQuery(queryInsertInformation);
+                                }
+                            }
+                            else
+                            {
+                                TempData["name_error"] = "Ngày sinh không được để trống";
+                                return RedirectToAction("Insert", "User");
+                            }
+                        }
+                        else
+                        {
+                            TempData["name_error"] = "Tên không được để trống";
+                            return RedirectToAction("Insert", "User");
+                        }
+                    }
+                    else
+                    {
+                        TempData["password_error"] = "Mật khẩu phải trên 6 ký tự và có ít nhất 1 chữ hoa và chữ thường";
+                        return RedirectToAction("Insert", "User");
+                    }
+                }
+                else
+                {
+                    TempData["email_error"] = "Email đã tồn tại";
+                    return RedirectToAction("Insert", "User");
+                }
+            }
+            catch
+            {
+                TempData["insert_error"] = "Thêm user thất bại";
+                return RedirectToAction("Insert", "User");
+            }
+
+            return RedirectToAction("Index", "User");
+        }
+
+        //get id user
+        public int IDEmail(string email)
+        {
+            string query = "SELECT id FROM users WHERE email = '" + email + "'";
+            ConnectionMySQL connect = new ConnectionMySQL();
+            DataTable dt = new DataTable();
+            dt = connect.SelectData(query).Tables[0];
+            int ID = Int32.Parse(dt.Rows[0]["id"].ToString());
+
+            return ID;
+        }
 
         //lock user by ID
         public ActionResult Lock(int id)
@@ -315,6 +406,42 @@ namespace ManagerTour.Controllers
             }
 
             return RedirectToAction("Login", "Auth");
+        }
+
+        //get list role
+        public List<Roles> getListRole()
+        {
+            try
+            {
+                string query = "SELECT * FROM `roles`";
+
+                ConnectionMySQL connect = new ConnectionMySQL();
+                DataTable dt = new DataTable();
+                dt = connect.SelectData(query).Tables[0];
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        Roles role = new Roles
+                        {
+                            Id = Int32.Parse(row["id"].ToString()),
+                            Role = row["role"].ToString(),
+                            Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
+                            Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
+                            TotalPage = totalPage,
+                            CurrentPage = currentPage,
+                        };
+
+                        ListRole.Add(role);
+                    }
+                }
+            }
+            catch
+            {
+            }
+
+            return ListRole;
         }
 
         //pagination next page

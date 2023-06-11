@@ -358,6 +358,7 @@
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Insert.cshtml" />
     <Content Include="Views\Roles\Detail.cshtml" />
+    <Content Include="Views\User\Insert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

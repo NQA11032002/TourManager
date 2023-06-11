@@ -62,5 +62,19 @@ namespace ManagerTour.Models
                 cmd.ExecuteNonQuery();           
             }
         }
+
+        //ExcuteReader
+        public MySqlDataReader ExcuteReader(string query)
+        {
+            using (MySqlConnection Connection = new MySqlConnection(strConnect))
+            {
+                Connection.Open();
+
+                MySqlCommand cmd = new MySqlCommand(query, Connection);
+                var reader = cmd.ExecuteReader();
+
+                return reader;
+            }
+        }
     }
 }
