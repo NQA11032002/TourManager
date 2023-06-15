@@ -20,15 +20,12 @@
         </div>
     </div>
 
-    <div class="breadcrumb-date">
-        <p>August 1, 2020 - August 31, 2020</p>
-    </div>
 </div>
 
 <div class="posts address_travel types">
     @using (@Html.BeginForm("Index", "Roles", FormMethod.Get))
     {
-        <div class="p-3 d-flex align-items-center justify-content-between">
+        <div class="p-3 d-flex align-items-center justify-content-between table-mobile">
             <div class="posts_search d-flex justify-content-center position-relative type_search">
                 <input type="text" name="keyword" class="search_input border" value="@ViewBag.keyword" placeholder="Enter keyword search the type travel..." />
                 <button id="btn_search" type="submit">

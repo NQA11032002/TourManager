@@ -26,7 +26,7 @@ namespace ManagerTour.Controllers
         public List<Type_travel> ListType { get => _listType; set => _listType = value; }
 
         //Pagination for table user
-        private int pageSize = 14;
+        private int pageSize = 15;
         private int currentPage = 1;
         private float totalPage = 0;
 

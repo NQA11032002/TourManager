@@ -250,6 +250,7 @@
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\auth.css" />
     <Content Include="Content\css\post.css" />
+    <Content Include="Content\css\responsive.css" />
     <Content Include="Content\css\tour.css" />
     <Content Include="Content\css\type_travel.css" />
     <Content Include="Content\css\user.css" />

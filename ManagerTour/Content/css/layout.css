@@ -14,6 +14,7 @@ ul,li,a,p
 	display: grid;
 	grid-template-columns: 230px 1fr;
 	height: 100vh;
+	transition: all 0.25s linear;
 }
 
 .main-left {
@@ -24,6 +25,7 @@ ul,li,a,p
 	height: 100%;
 	background-color: #2A3F54;
 	color: #E7E7E7;
+	transition: all 0.25s linear;
 }
 
 .sidebar .nav-item
@@ -95,6 +97,8 @@ ul,li,a,p
 .header .sidebar_menu {
 	color: #73879C ;
 	font-size: 33px;
+	cursor: pointer;
+	margin-right: auto;
 }
 
 .header-info_name > img 
@@ -104,13 +108,13 @@ ul,li,a,p
 	border-radius: 50%;
 	object-fit: cover
 }
-.header-infor > .notify-mail {
+.header-infor > label > .notify-mail {
 	font-size: 18px;
 	color: #5A738E;
 	margin-right: 20px;
 }
 
-.header-infor > .notify-mail > .amount-notify {
+.header-infor > label > .notify-mail > .amount-notify {
 	font-size: 9px;
 	background-color: #1ABB9C;
 	width: 20px;
@@ -132,12 +136,14 @@ ul,li,a,p
 }
 
 .header_personally {
-	display: none;
 	width: 200px;
 	height: 120px;
-	right: 10px;
+	right: 17px;
 	top: 55px;
 	z-index: 9;
+	transform-origin: top right;
+	transform: scale(0);
+	transition: all 0.25s linear;
 }
 
 .header_personally > .navbar 
@@ -162,7 +168,7 @@ ul,li,a,p
 
 #cbdropheader:checked ~ .header_personally
 {
-	display: block;
+	transform: scale(1);
 }
 
 .forms_subsidebar, .forms_users {
@@ -243,4 +249,102 @@ ul,li,a,p
     height: 42px;
     left: -7px;
     position: absolute;
+}
+
+.notify {
+	background-color: #ffff;
+	width: 350px;
+	height: 400px;
+	overflow: hidden;
+	border-radius: 5px;
+	z-index: 99999;
+	position: absolute;
+	top: 55px;
+	transform-origin: top right;
+	transform: scale(0);
+	right: 220px;
+	overflow-y: visible;
+	transition: all 0.25s linear;
+}
+
+.watch-notify
+{
+	cursor: pointer;
+}
+
+#cbdropheader--notify:checked ~ .notify {
+	transform: scale(1);
+}
+
+.notify-item {
+	border-bottom: 1px solid #f1f1f1;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	width: 100%;
+	transition: all 0.25s linear;
+}
+
+.notify-item:last-child
+{
+	border-bottom: unset;
+}
+.notify-item:hover 
+{
+	opacity: 70%;
+}
+.notifies > .notify-item .notify-item--image > img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.notifies > .notify-item .notify-item--content
+{
+	margin-left: 10px;
+}
+
+.notifies > .notify-item .notify-item--content > .notify-item--name  {
+	margin-bottom: unset;
+	font-size: 13px;
+	color: #000;
+	font-weight: 600;
+
+}
+
+.notifies > .notify-item .notify-item--content > h5 > .notify-item--date {
+	margin-bottom: unset;
+	font-size: 12px;
+	color: #adb8c7;
+	font-weight: 500;
+	padding-left: 5px;
+}
+
+.notifies > .notify-item .notify-item--content > .notify-item--description
+{
+	font-size: 13px;
+	color: #000;
+	display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.notifies > .notify-item .notify-item--new {
+	position: absolute;
+	font-size: 13px;
+	color: red;
+	right: 5px;
+	top: 0;
+	font-weight: 600;
+}
+
+.notify-mail--empty {
+	font-size: 100px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: #adb8c7;
 }

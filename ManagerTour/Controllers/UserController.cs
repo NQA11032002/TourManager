@@ -20,7 +20,7 @@ namespace ManagerTour.Controllers
         public List<Roles> ListRole { get => _listRole; set => _listRole = value; }
 
         //Pagination for table user
-        private int pageSize = 16;
+        private int pageSize = 15;
         private int currentPage = 1;
         private float totalPage = 0;
 
@@ -312,8 +312,8 @@ namespace ManagerTour.Controllers
                                 //insert information of new user
                                 if (ID != 0)
                                 {
-                                    string queryInsertInformation = "INSERT INTO `user_information`(`user_id`, `name`, `birth_date`, `gender`) " +
-                                            "VALUES ('" + ID + "','" + name + "','" + birthDay.ToString("yyyy-MM-dd") + "','" + gender + "')";
+                                    string queryInsertInformation = "INSERT INTO `user_information`(`user_id`, `name`, `birth_date`, `gender`, `image`) " +
+                                            "VALUES ('" + ID + "','" + name + "','" + birthDay.ToString("yyyy-MM-dd") + "','" + gender + "', 'default.png')";
 
                                     connect.ExecuteNonQuery(queryInsertInformation);
                                 }

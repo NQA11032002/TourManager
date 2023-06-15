@@ -24,7 +24,7 @@
 
 .home_content-1--right {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
 	grid-gap: 20px;
 }
 
@@ -105,7 +105,7 @@
 {
     background: #ffff;
     border-radius: 20px;
-    height: 470px;
+    height: 490px;
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 	overflow-y: hidden;
 }

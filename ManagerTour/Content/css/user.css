@@ -38,7 +38,7 @@
 
 .users .user_select
 {
-	font-size: 14px;
+	font-size: 13px;
 }
 .users .user_select:focus
 {
@@ -107,4 +107,9 @@
 .users .label_index {
 	font-size: 13px;
 	font-weight: bold
+}
+
+.insert_address
+{
+	margin-top: auto;
 }

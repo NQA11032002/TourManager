@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Script.Serialization;
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -10,14 +12,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
     <link href="~/Content/css/layout.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.7.0.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
 </head>
 
 <body>
     <div class="main">
-        <div class="sidebar"> 
+        <div class="sidebar">
             <ul class="">
                 <li class="nav-item nav-info">
                     <div class="nav-item--info d-flex m-3">
@@ -35,12 +39,21 @@
                     </div>
                 </li>
 
+
                 <li class="nav-item  m-3">
                     <div class="sidebar_item d-flex align-items-center">
                         <i class="fa-regular fa-newspaper flex-shrink-0"></i>
                         <a class="nav-link" href="/Post/Index">Posts</a>
                     </div>
                 </li>
+
+                <li class="nav-item m-3">
+                    <div class="sidebar_item d-flex align-items-center">
+                        <i class="fa-solid fa-earth-americas  flex-shrink-0"></i>
+                        <a class="nav-link" href="/Tour/Index">Tours</a>
+                    </div>
+                </li>
+
 
                 <li class="nav-item  m-3">
                     <input type="checkbox" hidden id="cb_users" />
@@ -61,15 +74,8 @@
                     </ul>
                 </li>
 
-                <li class="nav-item m-3">
-                    <div class="sidebar_item d-flex align-items-center">
-                        <i class="fa-solid fa-earth-americas  flex-shrink-0"></i>
-                        <a class="nav-link" href="/Tour/Index">Tours</a>
-                    </div>
-                </li>
-
                 <li class="nav-item  m-3">
-                    <input type="checkbox" hidden id="cb_forms"/>
+                    <input type="checkbox" hidden id="cb_forms" />
 
                     <label for="cb_forms" class="sidebar_item-drop_travel sidebar_item d-flex align-items-center">
                         <i class="fa-solid fa-pen-to-square flex-shrink-0"></i>
@@ -106,12 +112,53 @@
         <div class="main-left">
             <div class="header">
                 <div class="p-3 d-flex justify-content-between">
-                    <i class="fa-solid fa-bars sidebar_menu"></i>
+                    <input type="checkbox" hidden id="cb_mobile" />
+                    <label for="cb_mobile" class="layout_mobile"></label>
+
+                    <label for="cb_mobile" class="sidebar_menu">
+                        <i class="fa-solid fa-bars "></i>
+                    </label>
 
                     <div class="header-infor d-flex align-items-center">
-                        <i class="fa-regular fa-envelope notify-mail position-relative">
-                            <p class="d-flex align-items-center justify-content-center position-absolute amount-notify">5</p>
-                        </i>
+                        <input type="checkbox" hidden id="cbdropheader--notify" />
+
+                        @{
+                            List<ManagerTour.Models.Tours> TourList = Session["ListTour"] as List<ManagerTour.Models.Tours>;
+                        }
+
+                        <label for="cbdropheader--notify" class="d-flex align-items-center watch-notify">
+                            <i class="fa-regular fa-envelope notify-mail position-relative">
+                                <p class="d-flex align-items-center justify-content-center position-absolute amount-notify">@TourList.Count</p>
+                            </i>
+                        </label>
+
+                        <div class="notify border">
+                            <div class="notifies m-2">
+                                @if (TourList.Count > 0)
+                                {
+                                    foreach (var row in TourList)
+                                    {
+                                        <a href="~/Tour/Detail?id=@row.Id" class="notify-item d-flex align-items-center position-relative">
+                                            <div class="notify-item--image">
+                                                <img src="~/Content/images/avatar/@row.User.Image" />
+                                            </div>
+
+                                            <div class="notify-item--content">
+                                                <h5 class="notify-item--name d-flex align-items-center">@row.User.Name <p class="notify-item--date">(@row.Created_at)</p></h5>
+                                                <p class="notify-item--description">@row.Description</p>
+                                            </div>
+
+                                            <p class="notify-item--new">New</p>
+                                        </a>
+                                    }
+                                }
+                                else
+                                {
+                                    <i class="fa-regular fa-envelope notify-mail--empty position-absolute position-relative"></i>
+                                }
+                            </div>
+                        </div>
+
 
                         <input type="checkbox" hidden id="cbdropheader" />
 
@@ -120,7 +167,7 @@
                             <p>@((Session["user"] as ManagerTour.Models.User_information).Name)</p>
                             <i class="fa-solid fa-angle-down"></i>
                         </label>
-                            
+
                         <div class="card header_personally position-absolute">
                             <ul class="navbar d-flex flex-column">
                                 <li class="nav-item d-flex align-items-center">
@@ -142,6 +189,41 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                const main = document.querySelector(".main");
+                const sidebar_menu = document.querySelector(".sidebar_menu");
+                const sidebar = document.querySelector('.sidebar');
+                const layout_mobile = document.querySelector('.layout_mobile');
+
+                sidebar_menu.addEventListener("click", function () {
+                    if (width < 667) {
+                        sidebar.style.width = "220px";
+                    }
+                    else {
+                        if (!main.classList.contains("active")) {
+                            main.style.gridTemplateColumns = "0px 1fr";
+                            main.classList.add("active");
+                        } else {
+                            main.style.gridTemplateColumns = "230px 1fr";
+                            main.classList.remove("active");
+                        }
+
+                    }
+                })
+
+                layout_mobile.addEventListener("click", function () {
+                    if (width < 667) {
+                        sidebar.style.width = "0px";
+                    }
+                })
+
+                const width = window.innerWidth;
+
+                if (width < 667) {
+                    main.classList.add("active");
+                }
+            </script>
 
             <div>
                 @RenderBody()

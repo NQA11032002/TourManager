@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace ManagerTour.Controllers
 {
@@ -19,13 +20,17 @@ namespace ManagerTour.Controllers
 
         private List<Tours> _listTourGroup;
         public List<Tours> ListTourGroup { get => _listTourGroup; set => _listTourGroup = value; }
+
+        private List<Tours> _listTourAgree;
+        public List<Tours> ListTourAgree { get => _listTourAgree; set => _listTourAgree = value; }
+
         public HomeController()
         {
             ListUser = new List<User_information>();
             ListPosts = new List<Posts>();
             ListTour = new List<Tours>();
             ListTourGroup = new List<Tours>();
-
+            ListTourAgree = new List<Tours>();
         }
 
         // GET: Home
@@ -38,6 +43,9 @@ namespace ManagerTour.Controllers
                 ViewBag.listPosts = getListPost();
                 ViewBag.listTours = getListTour();
                 ViewBag.listToursGroup = getListTourGroup();
+
+                //get new tour need agree
+                HttpContext.Session["ListTour"] = getListTour("0");
                 return View();
             }
 
@@ -50,7 +58,7 @@ namespace ManagerTour.Controllers
             try
             {
                 string query = "SELECT i.id, i.user_id, i.name, i.birth_date, i.gender, i.address, i.phone, i.education, i.image, i.is_login, i.created_at, i.updated_at, users.email, users.status, users.role_id" +
-                                " FROM `user_information` as i join users on i.user_id = users.id ORDER BY i.id DESC LIMIT 8";
+                                " FROM `user_information` as i join users on i.user_id = users.id ORDER BY i.id DESC LIMIT 7";
 
                 ConnectionMySQL connect = new ConnectionMySQL();
                 DataTable dt = new DataTable();
@@ -165,13 +173,21 @@ namespace ManagerTour.Controllers
         }
 
         // GET: Tour
-        public List<Tours> getListTour()
+        public List<Tours> getListTour(string status = null)
         {
             try
             {
                 string query = "SELECT t.id, t.user_id, t.vehicle_id, t.title, t.description, t.address_start, t.address_end, t.date_start, t.date_end, " +
-                                "t.price_tour, t.detail_price_tour, t.amount_customer_maximum, t.amount_customer_present, t.status, t.created_at, u.name as userName, v.name as vehicleName, t.created_at, t.updated_at" +
-                                " FROM tours as t join user_information as u on t.user_id = u.id join vehicles as v on t.vehicle_id = v.id ORDER BY t.id DESC LIMIT 6";
+                                "t.price_tour, t.detail_price_tour, t.amount_customer_maximum, t.amount_customer_present, t.status, t.created_at, u.name as userName, u.image as userImage," +
+                                " v.name as vehicleName, t.created_at, t.updated_at" +
+                                " FROM tours as t join user_information as u on t.user_id = u.id join vehicles as v on t.vehicle_id = v.id";
+
+                if(!string.IsNullOrEmpty(status))
+                {
+                    query += " WHERE t.status = "+Int32.Parse(status)+ "";
+                }
+
+                query += " ORDER BY t.id DESC";
 
                 ConnectionMySQL connect = new ConnectionMySQL();
                 DataTable dt = new DataTable();
@@ -199,20 +215,30 @@ namespace ManagerTour.Controllers
                             Status = Int32.Parse(row["status"].ToString()),
                             Created_at = String.Format("{0:dd-MM-yyyy}", row["created_at"]),
                             Updated_at = String.Format("{0:dd-MM-yyyy}", row["updated_at"]),
-                            User = new User_information { Name = row["userName"].ToString() },
+                            User = new User_information { Name = row["userName"].ToString(), Image = row["userImage"].ToString() },
                             Vehicles = new Vehicles { Name = row["vehicleName"].ToString() },
                         };
 
-                        ListTour.Add(tour);
+                        if(string.IsNullOrEmpty(status))
+                        {
+                            ListTour.Add(tour);
+                        }
+                        else
+                        {
+                            ListTourAgree.Add(tour);
+                        }
                     }
                 }
-
-                return ListTour;
             }
             catch
             {
+            }
+
+            if (string.IsNullOrEmpty(status))
+            {
                 return ListTour;
             }
+            return ListTourAgree;
         }
 
         //get total user is login

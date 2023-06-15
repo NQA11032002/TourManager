@@ -6,7 +6,7 @@
 	border-radius: 10px;
 	background-color: #ffff;
 	margin: 20px;
-    height: 755px;
+    height: 770px;
     overflow-y: auto;
 }
 
@@ -182,13 +182,15 @@
     font-weight: bold;
 }
 
-.posts .filter_type {
-    font-size: 13px;
-}
 .posts .filter_type:focus {
     border-color: #000;
 }
 
 .posts .search_input--contain {
     margin: unset
+}
+
+
+.filter_type {
+    font-size: 13px;
 }

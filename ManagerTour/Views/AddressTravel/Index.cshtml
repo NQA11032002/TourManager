@@ -20,16 +20,13 @@
         </div>
     </div>
 
-    <div class="breadcrumb-date">
-        <p>August 1, 2020 - August 31, 2020</p>
-    </div>
 </div>
 
 <div class="posts address_travel">
     @using (Html.BeginForm("Index", "AddressTravel", FormMethod.Get))
     {
-        <div class="d-flex justify-content-between p-3">
-            <div class="d-flex align-items-center">
+        <div class="d-flex justify-content-between p-3 table-mobile">
+            <div class="d-flex align-items-center table-mobile">
                 <div class="filter_city">
                     <label class="form-label label_index">City</label>
                     <select class="form-select shadow-none user_select select_city" name="filter_city">
@@ -74,7 +71,7 @@
                     </select>
                 </div>
 
-                <div class="filter_type">
+                <div class="filter_type filter_type--mobile">
                     <label class="form-label label_index">Type Travel</label>
                     <select class="form-select shadow-none user_select select_type" name="filter_type">
                         <option value="0">Tất cả</option>

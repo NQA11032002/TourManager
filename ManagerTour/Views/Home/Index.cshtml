@@ -16,10 +16,6 @@
                 <span>Analytic</span>
             </div>
         </div>
-
-        <div class="breadcrumb-date">
-            <p>August 1, 2020 - August 31, 2020</p>
-        </div>
     </div>
 
     <div class="home_content">
@@ -85,12 +81,12 @@
         <div class="home_content-2">
             <div class="row-2">
                 <div class="card__user">
-                    <h1>New Users <span>(top 7)</span></h1>
+                    <h1>New Users <span>(@ViewBag.listUsers.Count)</span></h1>
                     @foreach (var row in ViewBag.listUsers)
                     {
                         <a class="card__user--items card-items" href="/User/Detail?id=@row.Id">
                             <div class="card__user--item card-item">
-                                <img class="card__user--item-image" src="~/Content/images/default.png" alt="">
+                                <img class="card__user--item-image" src="~/Content/images/avatar/@((row as ManagerTour.Models.User_information).Image)" alt="">
                                 <p class="card-item--name">@row.Name</p>
                                 <p>@(row.User.Role_id == 1 ? "Quản trị viên" : "Người dùng")</p>
                                 <p>@row.Created_at</p>
@@ -130,9 +126,8 @@
         </div>
     </div>
 </section>
-
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     var tourListGroup = @Html.Raw(Json.Encode(ViewBag.listToursGroup));
     const ctx = document.getElementById('myChart');
@@ -196,5 +191,4 @@
 
 
     new Chart(pie, config);
-
 </script>

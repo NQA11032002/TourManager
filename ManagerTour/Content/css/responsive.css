@@ -1,0 +1,125 @@
+﻿@media only screen and (min-width : 1224px) {
+}
+
+/* typical phone screen resolution */
+@media only screen and (max-width : 667px) {
+    .main {
+        display: block;
+        grid-template-columns: 0px 1fr;
+    }
+
+    .main-left
+    {
+        padding-block: 10px;
+    }
+    .home_content-1 {
+        grid-template-columns: unset !important;
+        sidebar
+    }
+
+    .home_content {
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    .home_content-1--right {
+        margin-top: 15px;
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    .home_content-2 > .row-2 {
+        display: flex !important;
+        flex-direction: column;
+    }
+
+    .notify {
+        transform-origin:top;
+        right: 0;
+        left: 20px;
+        height: 250px;
+        top: 73px;
+    }
+
+    .posts_search {
+        width: 100% !important;
+    }
+
+    .posts_search > .search_input
+    {
+        width: 100%;
+    }
+
+
+    .sidebar
+    {
+        width: 0px;
+        overflow: hidden;
+        position: fixed;
+        z-index: 9;
+    }
+
+    .layout_mobile
+    {
+        display: none;
+        position: absolute;
+        z-index: 8;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    #cb_mobile:checked ~ .layout_mobile {
+        display: block;
+    }
+
+    .table-mobile
+    {
+        display: block !important;
+    }
+
+    .insert_address
+    {
+        float: right;
+        margin-top: 10px !important;
+        margin-bottom: 20px;
+    }
+
+    .notify-remove-post, .notify-lock-user {
+        width: 80% !important;
+        height: auto !important;
+    }
+
+    .address_travel .filter_town
+    {
+        margin: unset !important;
+    }
+
+    .filter_type--mobile {
+        margin-top: 5px !important;
+    }
+
+    .header_personally
+    {
+        top: 70px;
+    }
+}
+/* landscape orientation */
+@media only screen and (min-width : 375px) and (max-width : 667px) and (orientation : landscape) {
+}
+/* portrait orientation */
+@media only screen and (min-width : 375px) and (max-width : 667px) and (orientation : portrait) {
+}
+
+/* typical tablet screen resolution */
+@media only screen and (max-width : 834px) {
+
+}
+/* landscape orientation */
+@media only screen and (min-width : 768px) and (max-width : 834px) and (orientation : landscape) {
+}
+/* portrait orientation */
+@media only screen and (min-width : 768px) and (max-width : 834px) and (orientation : portrait) {
+}

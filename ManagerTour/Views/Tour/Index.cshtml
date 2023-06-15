@@ -19,15 +19,12 @@
         </div>
     </div>
 
-    <div class="breadcrumb-date">
-        <p>August 1, 2020 - August 31, 2020</p>
-    </div>
 </div>
 
 <div class="posts tours">
     @using (@Html.BeginForm("Index", "Tour", FormMethod.Get))
     {
-        <div class="d-flex justify-content-between align-items-center p-3 ">
+        <div class="d-flex justify-content-between align-items-center p-3 table-mobile">
             <div class="filter_city">
                 <label class="form-label label_index">Status</label>
                 <select class="form-select shadow-none user_select filter_status" name="filter_status">

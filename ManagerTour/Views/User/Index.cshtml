@@ -19,16 +19,12 @@
             <span>Analytic</span>
         </div>
     </div>
-
-    <div class="breadcrumb-date">
-        <p>August 1, 2020 - August 31, 2020</p>
-    </div>
 </div>
 
 <div class="posts users">
     @using (Html.BeginForm("Index", "User", FormMethod.Get))
     {
-        <div class="d-flex justify-content-between p-3">
+        <div class="d-flex justify-content-between p-3 table-mobile">
             <div>
                 <label class="form-label label_index">Status</label>
                 <select class="form-select shadow-none user_select" name="filter">

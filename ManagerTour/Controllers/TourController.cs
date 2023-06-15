@@ -21,7 +21,7 @@ namespace ManagerTour.Controllers
         public List<tour_picture> ListPicture { get => _listPicture; set => _listPicture = value; }
 
         //Pagination for table tour
-        private int pageSize = 8;
+        private int pageSize = 9;
         private int currentPage = 1;
         private float totalPage = 0;
 
@@ -264,6 +264,10 @@ namespace ManagerTour.Controllers
                     ConnectionMySQL connect = new ConnectionMySQL();
                     connect.ExecuteNonQuery(query);
 
+                    //update status list tour for notify header
+                    HomeController home = new HomeController();
+                    HttpContext.Session["ListTour"] = home.getListTour("0");
+
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -322,6 +326,10 @@ namespace ManagerTour.Controllers
 
                         ConnectionMySQL connect = new ConnectionMySQL();
                         connect.ExecuteNonQuery(query);
+
+                        //update status list tour for notify header
+                        HomeController home = new HomeController();
+                        HttpContext.Session["ListTour"] = home.getListTour("0");
 
                         return RedirectToAction("Index");
                     }
