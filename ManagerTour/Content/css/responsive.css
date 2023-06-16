@@ -105,6 +105,26 @@
     {
         top: 70px;
     }
+
+    .auth > .container {
+        width: 340px;
+        min-height: 550px;
+        height: 620px;
+    }
+    .sign-in-container {
+        width: 100%;
+        z-index: 2;
+        height: 50%;
+        top: 0;
+    }
+    .overlay-container {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        top: unset !important;
+        left: 0;
+        height: 50%;
+    }
 }
 /* landscape orientation */
 @media only screen and (min-width : 375px) and (max-width : 667px) and (orientation : landscape) {

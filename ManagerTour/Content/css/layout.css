@@ -348,3 +348,8 @@ ul,li,a,p
 	transform: translate(-50%, -50%);
 	color: #adb8c7;
 }
+
+.sidebar-link.active 
+{
+	color: #1ABB9C !important;
+}

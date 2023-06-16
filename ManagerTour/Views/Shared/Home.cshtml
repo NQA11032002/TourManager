@@ -35,7 +35,7 @@
                 <li class="nav-item  m-3">
                     <div class="sidebar_item d-flex align-items-center">
                         <i class="fa-solid fa-house flex-shrink-0"></i>
-                        <a class="nav-link" href="/Home/Index">Home</a>
+                        <a class="nav-link sidebar-link" data-id="Home" href="/Home/Index">Home</a>
                     </div>
                 </li>
 
@@ -43,14 +43,14 @@
                 <li class="nav-item  m-3">
                     <div class="sidebar_item d-flex align-items-center">
                         <i class="fa-regular fa-newspaper flex-shrink-0"></i>
-                        <a class="nav-link" href="/Post/Index">Posts</a>
+                        <a class="nav-link sidebar-link" data-id="Post" href="/Post/Index">Posts</a>
                     </div>
                 </li>
 
                 <li class="nav-item m-3">
                     <div class="sidebar_item d-flex align-items-center">
-                        <i class="fa-solid fa-earth-americas  flex-shrink-0"></i>
-                        <a class="nav-link" href="/Tour/Index">Tours</a>
+                        <i class="fa-solid fa-earth-americas flex-shrink-0"></i>
+                        <a class="nav-link sidebar-link" data-id="Tour" href="/Tour/Index">Tours</a>
                     </div>
                 </li>
 
@@ -60,7 +60,7 @@
 
                     <label for="cb_users" class="sidebar_item d-flex align-items-center siderbar_item-users">
                         <i class="fa-solid fa-users flex-shrink-0"></i>
-                        <a class="nav-link flex-shrink-0" href="/User/Index">Users</a>
+                        <a class="nav-link flex-shrink-0 sidebar-link" data-id="User" href="/User/Index">Users</a>
                         <i class="fa-solid fa-angle-down"></i>
                     </label>
 
@@ -68,7 +68,7 @@
                         <li class="nav-item nav-sub-item">
                             <div class="sidebar_item d-flex align-items-center">
                                 <span class="flex-shrink-0 sidebar_item-left"></span>
-                                <a class="nav-link" href="/Roles/Index">Roles</a>
+                                <a class="nav-link siebr-link sidebar-link" data-id="Roles" href="/Roles/Index">Roles</a>
                             </div>
                         </li>
                     </ul>
@@ -87,21 +87,21 @@
                         <li class="nav-item nav-sub-item">
                             <div class="sidebar_item d-flex align-items-center m-3">
                                 <span class="flex-shrink-0 sidebar_item-left"></span>
-                                <a class="nav-link" href="/AddressTravel/Index">Address Travel</a>
+                                <a class="nav-link sidebar-link" data-id="AddressTravel" href="/AddressTravel/Index">Address Travel</a>
                             </div>
                         </li>
 
                         <li class="nav-item nav-sub-item">
                             <div class="sidebar_item d-flex align-items-center m-3">
                                 <span class="flex-shrink-0 sidebar_item-left"></span>
-                                <a class="nav-link" href="/TypeTravel/Index">Type Travel</a>
+                                <a class="nav-link sidebar-link" data-id="TypeTravel" href="/TypeTravel/Index">Type Travel</a>
                             </div>
                         </li>
 
                         <li class="nav-item nav-sub-item">
                             <div class="sidebar_item d-flex align-items-center m-3">
                                 <span class="flex-shrink-0 sidebar_item-left"></span>
-                                <a class="nav-link" href="/Vehicle/Index">Vehicle Travel</a>
+                                <a class="nav-link sidebar-link" data-id="Vehicle" href="/Vehicle/Index">Vehicle Travel</a>
                             </div>
                         </li>
                     </ul>
@@ -223,6 +223,29 @@
                 if (width < 667) {
                     main.classList.add("active");
                 }
+
+                //active siderbar link
+                let page = location.href;
+                let arrPage = page.split('/');
+                const sideLinks = document.querySelectorAll('.sidebar-link');
+
+                if (arrPage.length > 3) {
+                    page = arrPage[3];
+                    sideLinks.forEach(p => {
+                        let sidePage = p.getAttribute("data-id");
+                        console.log(sidePage);
+                        if (sidePage === page) {
+                            p.classList.add('active');
+                        }
+                        else {
+                            if (p.classList.contains("active")) {
+                                p.classList.remove('active');
+                            }
+                        }
+                    })
+                }
+
+                console.log(page);
             </script>
 
             <div>
