@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Windows;
@@ -226,6 +228,13 @@ namespace ManagerTour.Controllers
             {
                 try
                 {
+                    string email = getEmail(id);
+
+                    if (!string.IsNullOrEmpty(email))
+                    {
+                        SendEmail(email);
+                    }
+
                     string query = "DELETE FROM `posts` WHERE id = " + id;
                     ConnectionMySQL connect = new ConnectionMySQL();
                     connect.ExecuteNonQuery(query);
@@ -239,6 +248,56 @@ namespace ManagerTour.Controllers
             }
 
             return RedirectToAction("Login", "Auth");
+        }
+
+        //get email
+        public string getEmail(int id)
+        {
+            string query = "SELECT users.email FROM `posts` as t JOIN user_information as u on t.user_id = u.id join users on u.user_id = users.id WHERE t.id = "+id+"";
+            ConnectionMySQL connect = new ConnectionMySQL();
+            DataTable dt = new DataTable();
+            dt = connect.SelectData(query).Tables[0];
+            string email = dt.Rows[0]["email"].ToString();
+
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrWhiteSpace(email))
+            {
+                return email;
+            }
+
+            return null;
+        }
+
+        //send mail
+        public void SendEmail(string email)
+        {
+            // Sender's email address and password
+            string senderEmail = "myphamskincares@gmail.com";
+            string senderPassword = "iveycyeofwbtefcm";
+
+            // Recipient's email address
+            string recipientEmail = email;
+
+            // Email subject and body
+            string subject = "Chào bạn, chúng tôi gửi tin nhắn này từ website Tourbuzz";
+            string body = "Cảm ơn bạn đã sử dụng website của chúng tôi.<br>" +
+                          "Bài viết trên mạng xã hội của bạn đã bị xóa, vì có những nội dung không phu hợp với quy định của chúng tôi." +
+                          "Xin cảm ơn.";
+
+            // Create a new SmtpClient instance
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential(senderEmail, senderPassword);
+            smtpClient.EnableSsl = true;
+
+            // Create a new MailMessage instance
+            MailMessage mailMessage = new MailMessage(senderEmail, recipientEmail, subject, body);
+            mailMessage.IsBodyHtml = true;
+
+            // Send the email
+            smtpClient.Send(mailMessage);
+
+            ViewBag.Message = "Email sent successfully!";
+
         }
 
         //update information of the post 

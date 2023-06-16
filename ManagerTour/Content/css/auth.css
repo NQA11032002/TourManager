@@ -298,13 +298,10 @@ input {
 
 .resetpassword
 {
-	height: 758px !important;
+	height: 500px !important;
 	margin-top:80px !important; 
 }
 .resetpassword  form 
 {
 	margin-top: 22px !important;
-}
-.resetpassword > .overlay-container {
-	height: 300px !important;
 }
